@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require 'localio'
+puts Localio.test
