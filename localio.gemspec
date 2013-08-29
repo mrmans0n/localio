@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = Localio::VERSION
   spec.authors       = ["Nacho Lopez"]
   spec.email         = ["nacho@nlopez.io"]
-  spec.description   = %q{Automatic Localizable file generation based on Google Drive spreadsheets}
+  spec.description   = %q{Automatic Localizable file generation for multiple platforms}
   spec.summary       = %q{Automatic Localizable file generation for multiple type of files, like Android string.xml, Xcode Localizable.strings, JSON files, YAML files, etc. using Google Drive spreadsheets as base.}
   spec.homepage      = "http://nlopez.io"
   spec.license       = "MIT"
@@ -17,6 +17,8 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
+  
+  spec.executables << "localize"
 
   spec.add_development_dependency "rspec"
 
@@ -27,5 +29,6 @@ Gem::Specification.new do |spec|
   
   spec.add_dependency "micro-optparse", "~> 1.1.5"
   spec.add_dependency "google_drive", "~> 0.3.6"
+  spec.add_dependency "docile", "~> 1.1.0"
   
 end
