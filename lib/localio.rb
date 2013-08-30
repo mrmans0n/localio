@@ -1,6 +1,7 @@
 require 'localio/version'
 require 'localio/locfile'
 require 'localio/processor'
+require 'localio/localizable_writer'
 
 module Localio
 
@@ -38,20 +39,8 @@ module Localio
   end
 
   def self.build_localizables
-    case @configuration.platform
-      when :android
-        puts 'Building for Android!'
-      when :ios
-        puts 'Building for iOS!'
-      when :json
-        puts 'Building a JSON!'
-      when :yml
-        puts 'Building for YAML!'
-      when :php
-        puts 'Building for PHP!'
-      else
-        puts 'Madness? This is Sparta!'
-    end
+    LocalizableWriter.write(@configuration.platform, @localizables, @configuration.formatting)
+    puts 'Done!'
   end
 
 end
