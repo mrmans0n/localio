@@ -1,14 +1,15 @@
 require 'localio/processors/google_drive_processor'
+require 'localio/processors/xls_processor'
 
 module Processor
-  def self.new(service, path, options)
+  def self.load_localizables(service, path, options)
     case service
       when :google_drive
-        GoogleDriveProcessor.new(path, options)
+        GoogleDriveProcessor.load_localizables(path, options)
       when :xls
-        raise 'Not implemented (but planned!)'
+        XlsProcessor.load_localizables(path, options)
       else
-        raise 'Unsupported service!'
+        abort 'Unsupported service! Try with :google_drive or :xls in the source argument'
     end
   end
 end

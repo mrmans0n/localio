@@ -42,7 +42,6 @@ class Locfile
     @source_service = service
     @source_path = path
     @source_options = options
-    puts "Setting source service #{service} and source path #{path} with options #{options}"
   end
 
   def self.load(filename)

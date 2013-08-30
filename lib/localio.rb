@@ -9,7 +9,7 @@ module Localio
       if File.exist? 'Locfile'
         process_locfile('Locfile')
       else
-        raise 'Locfile not found in current directory'
+        abort 'Locfile not found in current directory'
       end
     else
       process_locfile(ARGV.shift)
@@ -29,7 +29,7 @@ module Localio
   end
 
   def self.process_to_memory
-    Processor.new(@locfile.source_service, @locfile.source_path, @locfile.source_options)
+    @localizables = Processor.load_localizables(@locfile.source_service, @locfile.source_path, @locfile.source_options)
   end
 
   def self.build_localizables
