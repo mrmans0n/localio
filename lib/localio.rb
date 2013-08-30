@@ -7,19 +7,46 @@ module Localio
   def self.from_cmdline(args)
     if ARGV.empty?
       if File.exist? 'Locfile'
-        load_locfile('Locfile')
+        process_locfile('Locfile')
       else
         raise 'Locfile not found in current directory'
       end
     else
-      load_locfile(ARGV.shift)
+      process_locfile(ARGV.shift)
     end
   end
 
   private
 
-  def self.load_locfile(path)
-    Locfile.load(path)
+  def self.process_locfile(path)
+    @locfile = Locfile.load(path)
+    generate_localizables
+  end
+
+  def self.generate_localizables
+    process_to_memory
+    build_localizables
+  end
+
+  def self.process_to_memory
+    Processor.new(@locfile.source_service, @locfile.source_path, @locfile.source_options)
+  end
+
+  def self.build_localizables
+    case @locfile.platform
+      when :android
+        puts 'Building for Android!'
+      when :ios
+        puts 'Building for iOS!'
+      when :json
+        puts 'Building a JSON!'
+      when :yml
+        puts 'Building for YAML!'
+      when :php
+        puts 'Building for PHP!'
+      else
+        puts 'Madness? This is Sparta!'
+    end
   end
 
 end
