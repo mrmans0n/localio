@@ -20,7 +20,7 @@ class Locfile
   dsl_accessor :formatting
 
   # Defined using 'source' ideally
-  dsl_accessor :source_service, :source_path, :source_options
+  dsl_accessor :source_service, :source_options
 
   def initialize
     @platform = nil
@@ -33,14 +33,10 @@ class Locfile
 
   # Defines the service storing the translations
   #
-  # service
-  #   :google_drive
-  #
-  # path : URL or system path storing the data
+  # service : can be :google_drive, :xls
   # options : hash with extra options, view documentation for the different services
-  def source(service, path, options = {})
+  def source(service, options = {})
     @source_service = service
-    @source_path = path
     @source_options = options
   end
 

@@ -16,10 +16,15 @@ module Localio
     end
   end
 
+  def self.from_configuration(configuration)
+    @configuration = configuration
+    generate_localizables
+  end
+
   private
 
   def self.process_locfile(path)
-    @locfile = Locfile.load(path)
+    @configuration = Locfile.load(path)
     generate_localizables
   end
 
@@ -29,11 +34,11 @@ module Localio
   end
 
   def self.process_to_memory
-    @localizables = Processor.load_localizables(@locfile.source_service, @locfile.source_path, @locfile.source_options)
+    @localizables = Processor.load_localizables(@configuration.source_service, @configuration.source_options)
   end
 
   def self.build_localizables
-    case @locfile.platform
+    case @configuration.platform
       when :android
         puts 'Building for Android!'
       when :ios
