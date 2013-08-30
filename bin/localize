@@ -1,14 +1,5 @@
 #!/usr/bin/env ruby
 
 require 'localio'
-require 'locfile'
 
-if ARGV.empty?
-  if File.exist? 'Locfile'
-    Locfile.load('Locfile')
-  else
-    raise 'Locfile not found in current directory'
-  end
-else
-  Locfile.load(ARGV.shift)
-end
+Localio.from_cmdline(ARGV)

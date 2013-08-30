@@ -29,6 +29,5 @@ Gem::Specification.new do |spec|
   
   spec.add_dependency "micro-optparse", "~> 1.1.5"
   spec.add_dependency "google_drive", "~> 0.3.6"
-  spec.add_dependency "docile", "~> 1.1.0"
-  
+
 end
