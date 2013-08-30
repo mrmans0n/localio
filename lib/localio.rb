@@ -35,11 +35,17 @@ module Localio
   end
 
   def self.process_to_memory
-    @localizables = Processor.load_localizables(@configuration.source_service, @configuration.source_options)
+    @localizables = Processor.load_localizables @configuration.source_service,
+                                                @configuration.source_options
   end
 
   def self.build_localizables
-    LocalizableWriter.write(@configuration.platform, @localizables, @configuration.formatting)
+    LocalizableWriter.write @configuration.platform,
+                            @localizables[:languages],
+                            @localizables[:terms],
+                            @configuration.output_path,
+                            @configuration.formatting,
+                            :default_language => @localizables[:default_language]
     puts 'Done!'
   end
 

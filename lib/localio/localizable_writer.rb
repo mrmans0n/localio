@@ -2,12 +2,12 @@ require 'localio/writers/android_writer'
 require 'localio/writers/ios_writer'
 
 module LocalizableWriter
-  def self.write(platform, terms, formatter)
+  def self.write(platform, languages, terms, path, formatter, options)
     case platform
       when :android
-        AndroidWriter.write terms, formatter
+        AndroidWriter.write languages, terms, path, formatter, options
       when :ios
-        IosWriter.write terms, formatter
+        IosWriter.write languages, terms, path, formatter, options
       when :json
         raise 'Not implemented yet'
       when :yml

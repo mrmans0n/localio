@@ -13,10 +13,10 @@ class Locfile
 
   # Specifies the format for the keys in the localizable file
   #
-  # smart : choose the formatting depending on the platform's best practices. This is the best option for multiplatform apps.
-  # camel_case : camel case formatting (ie thisKindOfKeys)
-  # snake_case : snake case formatting (ie this_kind_of_keys)
-  # none : no formatting done, the keys will be used as
+  # :smart - choose the formatting depending on the platform's best practices. This is the best option for multiplatform apps.
+  # :camel_case - camel case formatting (ie thisKindOfKeys)
+  # :snake_case - snake case formatting (ie this_kind_of_keys)
+  # :none - no formatting done, the keys will be used as
   dsl_accessor :formatting
 
   # Defined using 'source' ideally

@@ -1,0 +1,12 @@
+<!-- Localizable for <%= @current_lang %> language (<%= Time.now.localtime %>). DO NOT MODIFY. -->
+<resources>
+<%
+@terms.each do |term|
+  if term.restriction == 'a' || term.restriction == nil
+     if term.is_comment? %>
+  <!-- <%= term.values[@current_lang] %> -->
+<% else %>  <string name="<%= term.keyword_android %>"><%= term.values_android[@current_lang] %></string>
+<%   end
+  end
+end %>
+</resources>

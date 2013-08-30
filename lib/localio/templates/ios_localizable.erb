@@ -1,0 +1,20 @@
+/*
+Localizable.strings
+YOUR_COMPANY
+
+GENERATED - DO NOT MODIFY - use localizable-generator instead.
+
+Created by localizable-generator on <%= Time.now.localtime %>.
+Copyright (c) <%= Time.now.year %> YOUR_COMPANY. All rights reserved.
+*/
+
+<% @terms.each do |term| %>
+<%
+if term.restriction == 'i' || term.restriction == nil
+  if term.is_comment?
+%>
+// <%= term.values[@current_lang] %>
+<% else %>"<%= term.keyword_iphone %>" = "<%= term.values_iphone[@current_lang] %>";<%
+    end
+  end
+end %>

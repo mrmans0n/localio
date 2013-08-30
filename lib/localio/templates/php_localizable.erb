@@ -1,0 +1,25 @@
+<?php 
+/*
+Localizable
+YOUR_COMPANY
+
+GENERATED - DO NOT MODIFY - use localizable-generator instead.
+
+Created by localizable-generator on <%= Time.now.localtime %>.
+Copyright (c) <%= Time.now.year %> YOUR_COMPANY. All rights reserved.
+*/
+
+$lang = array();
+
+<% @terms.each do |term| %>
+<%
+if term.restriction == 'i' || term.restriction == nil
+  if term.is_comment?
+%>
+// <%= term.values[@current_lang] %>
+<% else %>$lang["<%= term.keyword_php %>"] = "<%= term.values_php[@current_lang] %>";<%
+    end
+  end
+end %>
+
+?>

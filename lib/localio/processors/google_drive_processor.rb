@@ -67,7 +67,7 @@ class GoogleDriveProcessor
 
     abort 'There are no language columns in the worksheet' if languages.count == 0
 
-    @default_language = languages[0] if default_language.to_s == ''
+    default_language = languages[0] if default_language.to_s == ''
 
     puts "Languages detected: #{languages.keys.join(', ')} -- using #{default_language} as default."
 
@@ -91,8 +91,13 @@ class GoogleDriveProcessor
 
     puts 'Loaded!'
 
-    # Return the array of terms
-    terms
+    # Return the array of terms, languages and default language
+    res = Hash.new
+    res[:terms] = terms
+    res[:languages] = languages
+    res[:default_language] = default_language
+
+    res
   end
 
 end
