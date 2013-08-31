@@ -42,7 +42,7 @@ module Localio
   def self.build_localizables
     LocalizableWriter.write @configuration.platform,
                             @localizables[:languages],
-                            @localizables[:terms],
+                            @localizables[:segments],
                             @configuration.output_path,
                             @configuration.formatting,
                             :default_language => @localizables[:default_language]

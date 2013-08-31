@@ -5,7 +5,7 @@
     },
 <% @langs.each do |lang| %>
     "<%= lang %>": {
-<%   @terms.each do |term|
+<%   @segments.each do |term|
        term_key = ''
        term_value = ''
        if term.restriction == 'j' || term.restriction == nil
@@ -16,7 +16,7 @@
            term_key = term.keyword_json
            term_value = term.values_json[lang]
          end
-%>      "<%= term_key %>": "<%= term_value %>"<% unless term == @terms.last %>,<% end %>
+%>      "<%= term_key %>": "<%= term_value %>"<% unless term == @segments.last %>,<% end %>
 <%     end
      end %>
     }<% unless lang == @langs.last %>,<% end %>

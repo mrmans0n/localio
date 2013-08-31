@@ -11,7 +11,7 @@ Copyright (c) <%= Time.now.year %> YOUR_COMPANY. All rights reserved.
 
 $lang = array();
 
-<% @terms.each do |term| %>
+<% @segments.each do |term| %>
 <%
 if term.restriction == 'i' || term.restriction == nil
   if term.is_comment?

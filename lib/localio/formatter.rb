@@ -1,12 +1,11 @@
 require 'localio/string_helper'
 
 module Formatter
-  def self.format(key, formatter, &block)
+  def self.format(key, formatter, callback)
     case formatter
       when :smart
         # Smart formatting is given by the processor.
         # I don't like this very much but creating more classes seemed overkill.
-        callback = block
         callback.call(key)
       when :none
         key

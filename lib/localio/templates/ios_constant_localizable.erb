@@ -8,7 +8,7 @@ Created by localizable-generator on <%= Time.now.localtime %>.
 Copyright (c) <%= Time.now.year %> YOUR_COMPANY. All rights reserved.
 */
 
-<% @terms.each do |term| %>
+<% @segments.each do |term| %>
 <%
        if term.restriction == 'i' || term.restriction == nil
          if term.is_comment?

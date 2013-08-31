@@ -93,7 +93,7 @@ class GoogleDriveProcessor
 
     # Return the array of terms, languages and default language
     res = Hash.new
-    res[:terms] = terms
+    res[:segments] = terms
     res[:languages] = languages
     res[:default_language] = default_language
 
