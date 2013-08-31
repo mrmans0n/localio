@@ -5,6 +5,7 @@ require 'localio/formatter'
 
 class AndroidWriter
   def self.write(languages, terms, path, formatter, options)
+    puts 'Writing Android translations...'
     default_language = options[:default_language]
 
     languages.keys.each do |lang|
@@ -23,7 +24,7 @@ class AndroidWriter
       end
 
       TemplateHandler.process_template 'android_localizable.erb', output_path, 'strings.xml', segments
-      puts " > #{lang}"
+      puts " > #{lang.yellow}"
     end
 
   end
