@@ -28,6 +28,12 @@ localize
 
 and your localizable files will be created with the parameters specified in the Locfile.
 
+### The Spreadsheet
+
+You will need a little spreadsheet with all the localization literals and their intended keys for internal use while coding.
+
+There is a basic example in this Google Drive link: [https://docs.google.com/spreadsheet/ccc?key=0AmX_w4-5HkOgdFFoZ19iSUlRSERnQTJ4NVZiblo2UXc&usp=sharing](https://docs.google.com/spreadsheet/ccc?key=0AmX_w4-5HkOgdFFoZ19iSUlRSERnQTJ4NVZiblo2UXc&usp=sharing). You just have to duplicate and save to your account, or download and save it as XLS file.
+
 ### Locfile
 
 A minimal `Locfile` example could be:
@@ -73,12 +79,6 @@ Option                      | Description                                       
 * `:snake_case` for snake case formatting (ie "this_kind_of_keys").
 * `:camel_case` for camel case formatting (ie "thisKindOfKeys").
 * `:smart` use a different formatting depending on the platform.
-
-### The Spreadsheet
-
-You have a basic example in this Google Drive link: [https://docs.google.com/spreadsheet/ccc?key=0AmX_w4-5HkOgdFFoZ19iSUlRSERnQTJ4NVZiblo2UXc&usp=sharing](https://docs.google.com/spreadsheet/ccc?key=0AmX_w4-5HkOgdFFoZ19iSUlRSERnQTJ4NVZiblo2UXc&usp=sharing)
-
-You just have to duplicate and save to your account, or download and save it as XLS file.
 
 ## Contributing
 
