@@ -13,7 +13,7 @@ class TemplateHandler
     output_file.write(output)
     output_file.close
 
-    destination_path = target_directory+generated_file_name
+    destination_path = File.join(target_directory, generated_file_name)
     FileUtils.mkdir_p(File.dirname(destination_path))
     FileUtils.cp(generated_file_name, destination_path)
     FileUtils.rm(generated_file_name)

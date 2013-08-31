@@ -1,5 +1,7 @@
 require 'localio/writers/android_writer'
 require 'localio/writers/ios_writer'
+require 'localio/writers/json_writer'
+require 'localio/writers/rails_writer'
 
 module LocalizableWriter
   def self.write(platform, languages, terms, path, formatter, options)
@@ -9,13 +11,11 @@ module LocalizableWriter
       when :ios
         IosWriter.write languages, terms, path, formatter, options
       when :json
-        raise 'Not implemented yet'
-      when :yml
-        raise 'Not implemented yet'
-      when :php
+        JsonWriter.write languages, terms, path, formatter, options
+      when :rails
         raise 'Not implemented yet'
       else
-        abort 'Platform not supported! Current possibilities are :android, :ios, :json, :yml, :php'
+        abort 'Platform not supported! Current possibilities are :android, :ios, :json, :rails'
     end
   end
 end

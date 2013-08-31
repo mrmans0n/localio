@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Nacho Lopez"]
   spec.email         = ["nacho@nlopez.io"]
   spec.description   = %q{Automatic Localizable file generation for multiple platforms}
-  spec.summary       = %q{Automatic Localizable file generation for multiple type of files, like Android string.xml, Xcode Localizable.strings, JSON files, YAML files, etc. using Google Drive spreadsheets as base.}
+  spec.summary       = %q{Automatic Localizable file generation for multiple type of files, like Android string.xml, Xcode Localizable.strings, JSON files, Rails YAML files, etc. using Google Drive and Excel spreadsheets as base.}
   spec.homepage      = "http://nlopez.io"
   spec.license       = "MIT"
 

@@ -10,7 +10,7 @@ module Localio
       if File.exist? 'Locfile'
         process_locfile('Locfile')
       else
-        abort 'Locfile not found in current directory'
+        abort 'Locfile not found in current directory, and no compatible file supplied in arguments.'
       end
     else
       process_locfile(ARGV.shift)
@@ -46,7 +46,7 @@ module Localio
                             @configuration.output_path,
                             @configuration.formatting,
                             :default_language => @localizables[:default_language]
-    puts 'Done!'
+    puts 'Done!'.green
   end
 
 end

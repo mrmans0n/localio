@@ -1,24 +1,16 @@
 {
     "meta" : {
-        "info": "Localizable created with localizable-utils. DO NOT MODIFY.",
-        "last_modification": "<%= Time.now.localtime %>"
+        "info": "Localizable created with localio. DO NOT MODIFY.",
+        "last_modification": "<%= Time.now.localtime %>",
+        "language": "<%= @language %>"
     },
-<% @langs.each do |lang| %>
-    "<%= lang %>": {
+    "translations": {
 <%   @segments.each do |term|
-       term_key = ''
-       term_value = ''
-       if term.restriction == 'j' || term.restriction == nil
-         if term.is_comment?
-           term_key = '_comment'
-           term_value = term.values[lang]
-         else
-           term_key = term.keyword_json
-           term_value = term.values_json[lang]
-         end
+         term_value = term.translation
+         term_key = term.key
+
+         term_key = '___comment___' if term.is_comment?
 %>      "<%= term_key %>": "<%= term_value %>"<% unless term == @segments.last %>,<% end %>
-<%     end
-     end %>
-    }<% unless lang == @langs.last %>,<% end %>
-<% end %>
+<%     end %>
+    }
 }

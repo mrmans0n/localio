@@ -1,0 +1,13 @@
+# Localizable created with localio on (<%= Time.now.localtime %>). DO NOT MODIFY.
+#
+# Language: <%= @language %>
+
+<%= @language %>:
+<%
+@segments.each do |term|
+     if term.is_comment? %>
+# <%= term.translation %>
+<% else %>  <%= term.key %>: "<%= term.translation %>"
+<%   end
+  end
+%>

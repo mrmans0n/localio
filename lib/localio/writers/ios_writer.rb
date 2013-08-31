@@ -9,12 +9,12 @@ class IosWriter
 
     constant_segments = nil
     languages.keys.each do |lang|
-      output_path = path + "#{lang}.lproj/"
+      output_path = File.join(path, "#{lang}.lproj/")
 
       # We have now to iterate all the terms for the current language, extract them, and store them into a new array
 
-      segments = SegmentsListHolder.new
-      constant_segments = SegmentsListHolder.new
+      segments = SegmentsListHolder.new lang
+      constant_segments = SegmentsListHolder.new lang
       terms.each do |term|
         key = Formatter.format(term.keyword, formatter, method(:ios_key_formatter))
         translation = term.values[lang]

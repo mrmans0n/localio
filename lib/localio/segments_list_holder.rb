@@ -1,8 +1,9 @@
 class SegmentsListHolder
-  attr_accessor :segments
+  attr_accessor :segments, :language
 
-  def initialize
+  def initialize(language)
     @segments = []
+    @language = language
   end
 
   def get_binding
