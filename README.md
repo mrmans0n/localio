@@ -1,6 +1,6 @@
 # Localio
 
-TODO: Write a gem description
+Localio generates automatically localizable files for many platforms like Rails, Android, iOS, etc., using a centralized spreadsheet as source. The spreadsheet can be from Google Drive or a simple Excel file.
 
 ## Installation
 

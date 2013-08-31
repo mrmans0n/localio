@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = Localio::VERSION
   spec.authors       = ["Nacho Lopez"]
   spec.email         = ["nacho@nlopez.io"]
-  spec.description   = %q{Automatic Localizable file generation for multiple platforms}
+  spec.description   = %q{Automatic Localizable file generation for multiple platforms (Rails, Android, iOS, JSON)}
   spec.summary       = %q{Automatic Localizable file generation for multiple type of files, like Android string.xml, Xcode Localizable.strings, JSON files, Rails YAML files, etc. reading from Google Drive and Excel spreadsheets as base.}
   spec.homepage      = "http://nlopez.io"
   spec.license       = "MIT"

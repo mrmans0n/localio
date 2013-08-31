@@ -1,27 +1,25 @@
-require 'spreadsheet'
+require 'simple_xlsx_reader'
 require 'localio/term'
 
-class XlsProcessor
+class XlsxProcessor
 
   def self.load_localizables(options)
 
     # Parameter validations
     path = options[:path]
-    abort ':path attribute is missing from the source, and it is required for xls spreadsheets' if path.nil?
+    abort ':path attribute is missing from the source, and it is required for xlsx spreadsheets' if path.nil?
 
-    Spreadsheet.client_encoding = 'UTF-8'
-
-    book = Spreadsheet.open path
+    book = SimpleXlsxReader.open path
 
     # TODO we could pass a :page_index in the options hash and get that worksheet instead, defaulting to zero?
-    worksheet = book.worksheet 0
+    worksheet = book.sheets.first
     abort 'Unable to retrieve the first worksheet from the spreadsheet. Are there any pages?' if worksheet.nil?
 
     # At this point we have the worksheet, so we want to store all the key / values
     first_valid_row_index = nil
     last_valid_row_index = nil
 
-    for row in 0..worksheet.row_count
+    for row in 0..worksheet.rows.count
       first_valid_row_index = row if worksheet[row, 0].to_s.downcase == '[key]'
       last_valid_row_index = row if worksheet[row, 0].to_s.downcase == '[end]'
     end
