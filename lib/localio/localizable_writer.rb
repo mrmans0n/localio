@@ -13,7 +13,7 @@ module LocalizableWriter
       when :json
         JsonWriter.write languages, terms, path, formatter, options
       when :rails
-        raise 'Not implemented yet'
+        RailsWriter.write languages, terms, path, formatter, options
       else
         abort 'Platform not supported! Current possibilities are :android, :ios, :json, :rails'
     end
