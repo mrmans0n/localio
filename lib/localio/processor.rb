@@ -8,6 +8,8 @@ module Processor
         GoogleDriveProcessor.load_localizables options
       when :xls
         XlsProcessor.load_localizables options
+      when :xlsx
+        raise 'Not implemented yet!'
       else
         abort 'Unsupported service! Try with :google_drive or :xls in the source argument'
     end
