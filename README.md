@@ -83,7 +83,7 @@ Option                      | Description
 `:login`                    | (Req.) Your Google login.
 `:password`                 | (Req.) Your Google password.
 
-**NOTE** As it is a very bad practice to put your login and your password in a plain file, specially when you would want to upload to some repository, it is **VERY RECOMMENDED** that you use environment variables in here.  Ruby syntax is accepted in these fields, so you can use `ENV['GOOGLE_LOGIN']` and `ENV['GOOGLE_PASSWORD']` in here. You can specify in your .bashrc, .zshrc and such these parameters with export command.
+**NOTE** As it is a very bad practice to put your login and your password in a plain file, specially when you would want to upload your project to some repository, it is **VERY RECOMMENDED** that you use environment variables in here. Ruby syntax is accepted so you can use `ENV['GOOGLE_LOGIN']` and `ENV['GOOGLE_PASSWORD']` in here.
 
 For example, this.
 
