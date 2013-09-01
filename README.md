@@ -44,9 +44,11 @@ platform :ios
 output_path 'out/'
 
 source :google_drive,
-    :spreadsheet => '[Localizables] My Project!',
-    :login => 'your_email@gmail.com',
-    :password => 'your_password'
+       :spreadsheet => '[Localizables] My Project!',
+       :login => 'your_email@gmail.com',
+       :password => 'your_password'
+
+formatting :smart # This is optional, formatting :smart is used by default.
 ````
 
 This would connect localio to your Google Drive and process the spreadsheet with title "[Localizables] My Project!".
@@ -55,11 +57,10 @@ The list of possible commands is this.
 
 Option                      | Description                                                      | Default
 ----------------------------|------------------------------------------------------------------|--------
-`platform`                  | (Req.) Target platform for the localizable files.                | ---
-`source`                    | (Req.) Information on where to find the spreadsheet w/ the info  | ---
+`platform`                  | (Req.) Target platform for the localizable files.                | `nil`
+`source`                    | (Req.) Information on where to find the spreadsheet w/ the info  | `nil`
 `output_path`               | (Req.) Target directory for the localizables.                    | `out/`
 `formatting`                | The formatter that will be used for key processing.              | `smart`
-
 
 #### Supported platforms
 
@@ -70,20 +71,80 @@ Option                      | Description                                       
 
 #### Supported sources
 
-* `:google_drive` will connect to Google Drive.
-* `:xls` will use a local XLS file.
+##### Google Drive
+`:google_drive` will connect to Google Drive.
+
+You will have to provide some required parameters too. Here is a list of all the parameters.
+
+Option                      | Description
+----------------------------|-------------------------------------------------------------------------
+`spreadsheet`               | (Req.) Title of the spreadsheet you want to use. Can be a partial match.
+`login`                     | (Req.) Your Google login.
+`password`                  | (Req.) Your Google password.
+
+**NOTE** As it is a very bad practice to put your login and your password in a plain file, specially when you would want to upload to some repository, it is **VERY RECOMMENDED** that you use environment variables in here.  Ruby syntax is accepted in these fields, so you can use `ENV['GOOGLE_LOGIN']` and `ENV['GOOGLE_PASSWORD']` in here. You can specify in your .bashrc, .zshrc and such these parameters with export command.
+
+For example, this.
+
+````ruby
+source :google_drive,
+       :spreadsheet => '[Localizables] My Project!',
+       :login => ENV['GOOGLE_LOGIN'],
+       :password => ENV['GOOGLE_PASSWORD']
+````
+
+And in your .bashrc (or .bash_profile, .zshrc or whatever), you could export those environment variables like this:
+
+````ruby
+export GOOGLE_LOGIN=your_login
+export GOOGLE_PASSWORD=your_password
+````
+
+##### XLS
+`:xls` will use a local XLS file. In the parameter's hash you should specify a `:path`.
+
+Option                      | Description
+----------------------------|-------------------------------------------------------------------------
+`path`                      | (Req.) Path for your XLS file.
+
+````ruby
+source :xls,
+       :path => 'BikeShare-old.xls'
+````
+
+##### XLSX
+
+Currently XLSX is not supporting though the code is there (not tested, though) and it will be included in a future release.
 
 #### Key formatters
 
+If you don't specify a formatter for keys, :smart will be used.
+
 * `:none` for no formatting.
-* `:snake_case` for snake case formatting (ie "this_kind_of_keys").
-* `:camel_case` for camel case formatting (ie "thisKindOfKeys").
+* `:snake_case` for snake case formatting (ie "this_kind_of_key").
+* `:camel_case` for camel case formatting (ie "ThisKindOfKey").
 * `:smart` use a different formatting depending on the platform.
+
+Here you have some examples on how the behavior would be:
+
+Platform          | "App name"   | "ANOTHER_KIND_OF_KEY"
+------------------|--------------|----------------------
+`none`            | App name     | ANOTHER_KIND_OF_KEY
+`snake_case`      | app_name     | another_kind_of_key
+`camel_case`      | appName      | AnotherKindOfKey
+`smart` (ios)     | _App_name    | _Another_kind_of_key
+`smart` (android) | app_name     | another_kind_of_key
+`smart` (ruby)    | app_name     | another_kind_of_key
+`smart` (json)    | app_name     | another_kind_of_key
+
+Example of use:
+
+````ruby
+formatting :camel_case
+````
+
+Normally you would want a smart formatter, because it is adjusted (or tries to) to the usual code conventions of each platform for localizable strings.
 
 ## Contributing
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+
