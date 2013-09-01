@@ -64,23 +64,24 @@ Option                      | Description                                       
 
 #### Supported platforms
 
-* `:android` for Android string.xml files.
-* `:ios` for iOS Localizable.strings files.
-* `:rails` for Rails YAML files.
-* `:json` for an easy JSON format for localizables.
+* `:android` for Android string.xml files. The `output_path` needed is the path for the `res` directory.
+* `:ios` for iOS Localizable.strings files. The `output_path` needed is base directory where `en.lproj/` and such would go.
+* `:rails` for Rails YAML files. The `output_path` needed is your `config/locales` directory.
+* `:json` for an easy JSON format for localizables. The `output_path` is yours to decide :)
 
 #### Supported sources
 
 ##### Google Drive
-`:google_drive` will connect to Google Drive.
+
+`source :google_drive` will get the translation strings from Google Drive.
 
 You will have to provide some required parameters too. Here is a list of all the parameters.
 
 Option                      | Description
 ----------------------------|-------------------------------------------------------------------------
-`spreadsheet`               | (Req.) Title of the spreadsheet you want to use. Can be a partial match.
-`login`                     | (Req.) Your Google login.
-`password`                  | (Req.) Your Google password.
+`:spreadsheet`              | (Req.) Title of the spreadsheet you want to use. Can be a partial match.
+`:login`                    | (Req.) Your Google login.
+`:password`                 | (Req.) Your Google password.
 
 **NOTE** As it is a very bad practice to put your login and your password in a plain file, specially when you would want to upload to some repository, it is **VERY RECOMMENDED** that you use environment variables in here.  Ruby syntax is accepted in these fields, so you can use `ENV['GOOGLE_LOGIN']` and `ENV['GOOGLE_PASSWORD']` in here. You can specify in your .bashrc, .zshrc and such these parameters with export command.
 
@@ -101,20 +102,21 @@ export GOOGLE_PASSWORD=your_password
 ````
 
 ##### XLS
-`:xls` will use a local XLS file. In the parameter's hash you should specify a `:path`.
+
+`source :xls` will use a local XLS file. In the parameter's hash you should specify a `:path`.
 
 Option                      | Description
 ----------------------------|-------------------------------------------------------------------------
-`path`                      | (Req.) Path for your XLS file.
+`:path`                     | (Req.) Path for your XLS file.
 
 ````ruby
 source :xls,
-       :path => 'BikeShare-old.xls'
+       :path => 'YourExcelFileWithTranslations.xls'
 ````
 
 ##### XLSX
 
-Currently XLSX is not supporting though the code is there (not tested, though) and it will be included in a future release.
+Currently XLSX is not supported though the code is there (not tested, though) and it will be included in a future release.
 
 #### Key formatters
 
@@ -127,15 +129,15 @@ If you don't specify a formatter for keys, :smart will be used.
 
 Here you have some examples on how the behavior would be:
 
-Platform          | "App name"   | "ANOTHER_KIND_OF_KEY"
-------------------|--------------|----------------------
-`none`            | App name     | ANOTHER_KIND_OF_KEY
-`snake_case`      | app_name     | another_kind_of_key
-`camel_case`      | appName      | AnotherKindOfKey
-`smart` (ios)     | _App_name    | _Another_kind_of_key
-`smart` (android) | app_name     | another_kind_of_key
-`smart` (ruby)    | app_name     | another_kind_of_key
-`smart` (json)    | app_name     | another_kind_of_key
+Platform           | "App name"   | "ANOTHER_KIND_OF_KEY"
+-------------------|--------------|----------------------
+`:none`            | App name     | ANOTHER_KIND_OF_KEY
+`:snake_case`      | app_name     | another_kind_of_key
+`:camel_case`      | appName      | AnotherKindOfKey
+`:smart` (ios)     | _App_name    | _Another_kind_of_key
+`:smart` (android) | app_name     | another_kind_of_key
+`:smart` (ruby)    | app_name     | another_kind_of_key
+`:smart` (json)    | app_name     | another_kind_of_key
 
 Example of use:
 
@@ -147,4 +149,4 @@ Normally you would want a smart formatter, because it is adjusted (or tries to) 
 
 ## Contributing
 
-
+Please read the [contributing guide](https://github.com/mrmans0n/localio/blob/master/CONTRIBUTING.md).
