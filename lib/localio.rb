@@ -10,7 +10,7 @@ module Localio
       if File.exist? 'Locfile'
         process_locfile('Locfile')
       else
-        abort 'Locfile not found in current directory, and no compatible file supplied in arguments.'
+        raise ArgumentError, 'Locfile not found in current directory, and no compatible file supplied in arguments.'
       end
     else
       process_locfile(ARGV.shift)

@@ -15,7 +15,7 @@ module LocalizableWriter
       when :rails
         RailsWriter.write languages, terms, path, formatter, options
       else
-        abort 'Platform not supported! Current possibilities are :android, :ios, :json, :rails'
+        raise ArgumentError, 'Platform not supported! Current possibilities are :android, :ios, :json, :rails'
     end
   end
 end

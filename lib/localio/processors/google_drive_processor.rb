@@ -7,18 +7,18 @@ class GoogleDriveProcessor
 
     # Parameter validations
     spreadsheet = options[:spreadsheet]
-    abort ':spreadsheet required for Google Drive source!' if spreadsheet.nil?
+    raise ArgumentError, ':spreadsheet required for Google Drive source!' if spreadsheet.nil?
     login = options[:login]
-    abort ':login required for Google Drive source!' if login.nil?
+    raise ArgumentError, ':login required for Google Drive source!' if login.nil?
     password = options[:password]
-    abort ':password required for Google Drive source!' if password.nil?
+    raise ArgumentError, ':password required for Google Drive source!' if password.nil?
 
     # Log in and get spreadsheet
     puts 'Logging in to Google Drive...'
     begin
       session = GoogleDrive.login(login, password)
     rescue
-      abort 'Couldn\'t access Google Drive. Check your credentials in :login and :password'
+      raise 'Couldn\'t access Google Drive. Check your credentials in :login and :password'
     end
     puts 'Logged in!'
 
@@ -39,7 +39,7 @@ class GoogleDriveProcessor
 
     # TODO we could pass a :page_index in the options hash and get that worksheet instead, defaulting to zero?
     worksheet = matching_spreadsheets[0].worksheets[0]
-    abort 'Unable to retrieve the first worksheet from the spreadsheet. Are there any pages?' if worksheet.nil?
+    raise 'Unable to retrieve the first worksheet from the spreadsheet. Are there any pages?' if worksheet.nil?
 
     # At this point we have the worksheet, so we want to store all the key / values
     first_valid_row_index = nil
@@ -50,9 +50,9 @@ class GoogleDriveProcessor
       last_valid_row_index = row if worksheet[row, 1].downcase == '[end]'
     end
 
-    abort 'Invalid format: Could not find any [key] keyword in the A column of the worksheet' if first_valid_row_index.nil?
-    abort 'Invalid format: Could not find any [end] keyword in the A column of the worksheet' if last_valid_row_index.nil?
-    abort 'Invalid format: [end] must not be before [key] in the A column' if first_valid_row_index > last_valid_row_index
+    raise IndexError, 'Invalid format: Could not find any [key] keyword in the A column of the worksheet' if first_valid_row_index.nil?
+    raise IndexError, 'Invalid format: Could not find any [end] keyword in the A column of the worksheet' if last_valid_row_index.nil?
+    raise IndexError, 'Invalid format: [end] must not be before [key] in the A column' if first_valid_row_index > last_valid_row_index
 
     languages = Hash.new('languages')
     default_language = nil

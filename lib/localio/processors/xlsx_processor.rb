@@ -7,13 +7,13 @@ class XlsxProcessor
 
     # Parameter validations
     path = options[:path]
-    abort ':path attribute is missing from the source, and it is required for xlsx spreadsheets' if path.nil?
+    raise ArgumentError, ':path attribute is missing from the source, and it is required for xlsx spreadsheets' if path.nil?
 
     book = SimpleXlsxReader.open path
 
     # TODO we could pass a :page_index in the options hash and get that worksheet instead, defaulting to zero?
     worksheet = book.sheets.first
-    abort 'Unable to retrieve the first worksheet from the spreadsheet. Are there any pages?' if worksheet.nil?
+    raise 'Unable to retrieve the first worksheet from the spreadsheet. Are there any pages?' if worksheet.nil?
 
     # At this point we have the worksheet, so we want to store all the key / values
     first_valid_row_index = nil
@@ -24,9 +24,9 @@ class XlsxProcessor
       last_valid_row_index = row if worksheet[row, 0].to_s.downcase == '[end]'
     end
 
-    abort 'Invalid format: Could not find any [key] keyword in the A column of the worksheet' if first_valid_row_index.nil?
-    abort 'Invalid format: Could not find any [end] keyword in the A column of the worksheet' if last_valid_row_index.nil?
-    abort 'Invalid format: [end] must not be before [key] in the A column' if first_valid_row_index > last_valid_row_index
+    raise IndexError, 'Invalid format: Could not find any [key] keyword in the A column of the worksheet' if first_valid_row_index.nil?
+    raise IndexError, 'Invalid format: Could not find any [end] keyword in the A column of the worksheet' if last_valid_row_index.nil?
+    raise IndexError, 'Invalid format: [end] must not be before [key] in the A column' if first_valid_row_index > last_valid_row_index
 
     languages = Hash.new('languages')
     default_language = nil
@@ -39,7 +39,7 @@ class XlsxProcessor
       end
     end
 
-    abort 'There are no language columns in the worksheet' if languages.count == 0
+    raise 'There are no language columns in the worksheet' if languages.count == 0
 
     default_language = languages[0] if default_language.to_s == ''
 

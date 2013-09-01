@@ -2,4 +2,9 @@
 
 require 'localio'
 
-Localio.from_cmdline(ARGV)
+begin
+  Localio.from_cmdline(ARGV)
+rescue => e
+  abort e.message
+end
+

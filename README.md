@@ -97,8 +97,8 @@ source :google_drive,
 And in your .bashrc (or .bash_profile, .zshrc or whatever), you could export those environment variables like this:
 
 ````ruby
-export GOOGLE_LOGIN=your_login
-export GOOGLE_PASSWORD=your_password
+export GOOGLE_LOGIN="your_login"
+export GOOGLE_PASSWORD="your_password"
 ````
 
 ##### XLS

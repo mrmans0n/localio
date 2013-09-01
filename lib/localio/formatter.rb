@@ -14,7 +14,7 @@ module Formatter
       when :snake_case
         key.space_to_underscore.strip_tag.downcase
       else
-        abort 'Unknown formatting used. Must use :smart, :none, :camel_case or :snake_case'
+        raise ArgumentError, 'Unknown formatting used. Must use :smart, :none, :camel_case or :snake_case'
     end
   end
 end
