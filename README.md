@@ -1,6 +1,6 @@
 # Localio
 
-Localio generates automatically localizable files for many platforms like Rails, Android, iOS, etc., using a centralized spreadsheet as source. The spreadsheet can be from Google Drive or a simple Excel file.
+Localio generates automatically localizable files for many platforms like Rails, Android, iOS, and JSON files using a centralized spreadsheet as source. The spreadsheet can be in Google Drive or a simple local Excel file.
 
 ## Installation
 
@@ -26,7 +26,9 @@ In your Locfile directory you can then execute
 localize
 ````
 
-and your localizable files will be created with the parameters specified in the Locfile.
+and your localizable files will be created with the parameters specified in the Locfile. 
+
+You can also specify in the first parameter a file with another name, and it will work as well.
 
 ### The Spreadsheet
 
