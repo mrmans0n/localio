@@ -34,6 +34,8 @@ You will need a little spreadsheet with all the localization literals and their 
 
 There is a basic example in this Google Drive link: [https://docs.google.com/spreadsheet/ccc?key=0AmX_w4-5HkOgdFFoZ19iSUlRSERnQTJ4NVZiblo2UXc&usp=sharing](https://docs.google.com/spreadsheet/ccc?key=0AmX_w4-5HkOgdFFoZ19iSUlRSERnQTJ4NVZiblo2UXc&usp=sharing). You just have to duplicate and save to your account, or download and save it as XLS file.
 
+**NOTE** Localio will only search for translations on the first worksheet of the spreadsheet. 
+
 ### Locfile
 
 A minimal `Locfile` example could be:
