@@ -23,7 +23,7 @@ class IosWriter
         segments.segments << segment
 
         unless term.is_comment?
-          constant_key = 'kLocale' + Formatter.format(term.keyword, :camel_case, nil)
+          constant_key = ios_constant_formatter term.keyword
           constant_value = key
           constant_segment = Segment.new(constant_key, constant_value, lang)
           constant_segments.segments << constant_segment
@@ -44,5 +44,9 @@ class IosWriter
 
   def self.ios_key_formatter(key)
     '_'+key.space_to_underscore.strip_tag.capitalize
+  end
+  
+  def self.ios_constant_formatter(key)
+    'kLocale'+key.space_to_underscore.strip_tag.camel_case  
   end
 end

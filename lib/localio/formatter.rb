@@ -10,7 +10,7 @@ module Formatter
       when :none
         key
       when :camel_case
-        key.camel_case
+        key.space_to_underscore.strip_tag.camel_case
       when :snake_case
         key.space_to_underscore.strip_tag.downcase
       else
