@@ -155,7 +155,7 @@ Normally you would want a smart formatter, because it is adjusted (or tries to) 
 
 We can establish filters to the keys and the translations.
 
-For example, if we don't want to include the translations where the key has the "[a]" string, we could include this in the Locfile.
+The exclusions are managed with the `except` command. For example, if we don't want to include the translations where the key has the "[a]" string, we could include this in the Locfile.
 
 ````ruby
 except :keys => '[a]'
@@ -175,7 +175,7 @@ only :keys => '[a]'
 
 It also works with values.
 
-The filters are regular expressions, so any complex syntax you want can be used in here.
+**NOTE** The filters are regular expressions, so any complex syntax you want can be used in here.
 
 ## Contributing
 
