@@ -153,29 +153,19 @@ Normally you would want a smart formatter, because it is adjusted (or tries to) 
 
 ### Filtering content
 
-We can establish filters to the keys and the translations.
+We can establish filters to the keys by using regular expressions.
 
 The exclusions are managed with the `except` command. For example, if we don't want to include the translations where the key has the "[a]" string, we could include this in the Locfile.
 
 ````ruby
-except :keys => '[a]'
-````
-
-It also works with the values. In addition to the previous example, if we don't want translations with values with a certain word, like 'dubidub' we should use:
-
-````ruby
-except :keys => '[a]', :values => 'dubidub'
+except :keys => '[\[][a][\]]'
 ````
 
 We can filter inversely too, with the command `only`. For example, if we only want the translations that contain the '[a]' token, we should use:
 
 ````ruby
-only :keys => '[a]'
+only :keys => '[\[][a][\]]'
 ````
-
-It also works with values.
-
-**NOTE** The filters are regular expressions, so any complex syntax you want can be used in here.
 
 ## Contributing
 

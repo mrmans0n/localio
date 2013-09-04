@@ -2,6 +2,7 @@ require 'localio/version'
 require 'localio/locfile'
 require 'localio/processor'
 require 'localio/localizable_writer'
+require 'localio/filter'
 
 module Localio
 
@@ -31,12 +32,19 @@ module Localio
 
   def self.generate_localizables
     process_to_memory
+    apply_filters
     build_localizables
   end
 
   def self.process_to_memory
     @localizables = Processor.load_localizables @configuration.source_service,
                                                 @configuration.source_options
+  end
+
+  def self.apply_filters
+    @localizables[:segments] = Filter.apply_filter @localizables[:segments],
+                                                   @configuration.only,
+                                                   @configuration.except
   end
 
   def self.build_localizables

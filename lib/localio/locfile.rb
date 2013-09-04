@@ -5,7 +5,7 @@ class Locfile
   # Specify the target platform for the localizables
   #
   # possible values
-  # :android, :ios, :php, :json, :yml
+  # :android, :ios, :rails, :json
   dsl_accessor :platform
 
   # Specifies the filesystem path where the generated files will be
@@ -18,6 +18,12 @@ class Locfile
   # :snake_case - snake case formatting (ie this_kind_of_keys)
   # :none - no formatting done, the keys will be used as
   dsl_accessor :formatting
+
+  # Specify a filter that we can use for keys. It would work as "put everything except what matches with this key"
+  dsl_accessor :except
+
+  # Specify a filter that we can use for keys. It would work as "put only what matches with this key"
+  dsl_accessor :only
 
   # Defined using 'source' ideally
   dsl_accessor :source_service, :source_options
