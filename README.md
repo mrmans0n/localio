@@ -65,6 +65,8 @@ Option                      | Description                                       
 `source`                    | (Req.) Information on where to find the spreadsheet w/ the info  | `nil`
 `output_path`               | (Req.) Target directory for the localizables.                    | `out/`
 `formatting`                | The formatter that will be used for key processing.              | `smart`
+`except`                    | Filter applied to the keys, process all except the matches.      | `nil`
+`only`                      | Filter applied to the keys, only process the matches.            | `nil`
 
 #### Supported platforms
 
