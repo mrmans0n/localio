@@ -151,6 +151,32 @@ formatting :camel_case
 
 Normally you would want a smart formatter, because it is adjusted (or tries to) to the usual code conventions of each platform for localizable strings.
 
+### Filtering content
+
+We can establish filters to the keys and the translations.
+
+For example, if we don't want to include the translations where the key has the "[a]" string, we could include this in the Locfile.
+
+````ruby
+except :keys => '[a]'
+````
+
+It also works with the values. In addition to the previous example, if we don't want translations with values with a certain word, like 'dubidub' we should use:
+
+````ruby
+except :keys => '[a]', :values => 'dubidub'
+````
+
+We can filter inversely too, with the command `only`. For example, if we only want the translations that contain the '[a]' token, we should use:
+
+````ruby
+only :keys => '[a]'
+````
+
+It also works with values.
+
+The filters are regular expressions, so any complex syntax you want can be used in here.
+
 ## Contributing
 
 Please read the [contributing guide](https://github.com/mrmans0n/localio/blob/master/CONTRIBUTING.md).
