@@ -122,7 +122,16 @@ source :xls,
 
 ##### XLSX
 
-Currently XLSX is not supported though the code is there (not tested, though) and it will be included in a future release.
+`source :xlsx` will use a local XLSX file. In the parameter's hash you should specify a `:path`.
+
+Option                      | Description
+----------------------------|-------------------------------------------------------------------------
+`:path`                     | (Req.) Path for your XLSX file.
+
+````ruby
+source :xlsx,
+       :path => 'YourExcelFileWithTranslations.xlsx'
+````
 
 #### Key formatters
 
