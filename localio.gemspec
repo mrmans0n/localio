@@ -30,5 +30,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "micro-optparse", "~> 1.1.5"
   spec.add_dependency "google_drive", "~> 0.3.6"
   spec.add_dependency "spreadsheet", "~> 0.8.9"
-  # spec.add_dependency "simple_xlsx_reader", "~> 0.9.7"
+  spec.add_dependency "simple_xlsx_reader", "~> 0.9.8"
 end
