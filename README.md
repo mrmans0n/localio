@@ -18,7 +18,7 @@ Or install it yourself as:
 
 ## Usage
 
-You have to create a custom file, Locfile, similar to Rakefile or Gemfile, with some information for this to work. Also you must have some spreadsheet with a particular format, either in Google Drive or in XLS format.
+You have to create a custom file, Locfile, similar to Rakefile or Gemfile, with some information for this to work. Also you must have some spreadsheet with a particular format, either in Google Drive or in Excel (XLS or XLSX) format.
 
 In your Locfile directory you can then execute
 
