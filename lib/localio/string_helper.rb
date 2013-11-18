@@ -34,6 +34,10 @@ class String
   def space_to_underscore
     self.gsub(' ', '_')
   end
+  
+  def replace_escaped
+    self.gsub("`+", "+").gsub("`=","=").gsub("\\+", "+").gsub("\\=","=")
+  end
 
   def camel_case
     return self if self !~ /_/ && self =~ /[A-Z]+.*/

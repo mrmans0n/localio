@@ -4,7 +4,7 @@ class Segment
 
   def initialize(key, translation, language)
     @key = key
-    @translation = translation
+    @translation = translation.replace_escaped
     @language = language
   end
 
