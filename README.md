@@ -146,13 +146,13 @@ Here you have some examples on how the behavior would be:
 
 Platform           | "App name"   | "ANOTHER_KIND_OF_KEY"
 -------------------|--------------|----------------------
-`:none`            | `App name`   | ANOTHER_KIND_OF_KEY
-`:snake_case`      | `app_name`   | another_kind_of_key
-`:camel_case`      | `appName`    | AnotherKindOfKey
-`:smart` (ios)     | `_App_name`  | _Another_kind_of_key
-`:smart` (android) | `app_name`   | another_kind_of_key
-`:smart` (ruby)    | `app_name`   | another_kind_of_key
-`:smart` (json)    | `app_name`   | another_kind_of_key
+`:none`            | `App name`   | `ANOTHER_KIND_OF_KEY`
+`:snake_case`      | `app_name`   | `another_kind_of_key`
+`:camel_case`      | `appName`    | `AnotherKindOfKey`
+`:smart` (ios)     | `_App_name`  | `_Another_kind_of_key`
+`:smart` (android) | `app_name`   | `another_kind_of_key`
+`:smart` (ruby)    | `app_name`   | `another_kind_of_key`
+`:smart` (json)    | `app_name`   | `another_kind_of_key`
 
 Example of use:
 
