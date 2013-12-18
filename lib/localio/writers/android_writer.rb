@@ -36,6 +36,6 @@ class AndroidWriter
   end
   
   def self.android_parsing(term)
-    term.gsub("&", "&amp;").gsub("...","…")
+    term.gsub('&', '&amp;').gsub('...', '…')
   end
 end
