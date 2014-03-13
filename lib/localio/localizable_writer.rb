@@ -2,6 +2,7 @@ require 'localio/writers/android_writer'
 require 'localio/writers/ios_writer'
 require 'localio/writers/json_writer'
 require 'localio/writers/rails_writer'
+require 'localio/writers/java_properties_writer'
 
 module LocalizableWriter
   def self.write(platform, languages, terms, path, formatter, options)
@@ -14,8 +15,10 @@ module LocalizableWriter
         JsonWriter.write languages, terms, path, formatter, options
       when :rails
         RailsWriter.write languages, terms, path, formatter, options
+      when :java_properties
+        JavaPropertiesWriter.write languages, terms, path, formatter, options
       else
-        raise ArgumentError, 'Platform not supported! Current possibilities are :android, :ios, :json, :rails'
+        raise ArgumentError, 'Platform not supported! Current possibilities are :android, :ios, :json, :rails, :java_properties'
     end
   end
 end
