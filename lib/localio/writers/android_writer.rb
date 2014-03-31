@@ -2,6 +2,7 @@ require 'localio/template_handler'
 require 'localio/segments_list_holder'
 require 'localio/segment'
 require 'localio/formatter'
+require 'nokogiri'
 
 class AndroidWriter
   def self.write(languages, terms, path, formatter, options)
@@ -36,6 +37,6 @@ class AndroidWriter
   end
   
   def self.android_parsing(term)
-    term.gsub('&', '&amp;').gsub('...', '…').gsub('%@', '%s')
+    term.gsub('& ','&amp; ').gsub('...', '…').gsub('%@', '%s')
   end
 end

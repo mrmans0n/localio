@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Localio::VERSION
   spec.authors       = ["Nacho Lopez"]
   spec.email         = ["nacho@nlopez.io"]
-  spec.description   = %q{Automatic Localizable file generation for multiple platforms (Rails, Android, iOS, JSON)}
-  spec.summary       = %q{Automatic Localizable file generation for multiple type of files, like Android string.xml, Xcode Localizable.strings, JSON files, Rails YAML files, etc. reading from Google Drive and Excel spreadsheets as base.}
+  spec.description   = %q{Automatic Localizable file generation for multiple platforms (Rails YAML, Android, Java Properties, iOS, JSON)}
+  spec.summary       = %q{Automatic Localizable file generation for multiple type of files, like Android string.xml, Xcode Localizable.strings, JSON files, Rails YAML files, Java properties, etc. reading from Google Drive and Excel spreadsheets as base.}
   spec.homepage      = "http://github.com/mrmans0n/localio"
   spec.license       = "MIT"
 
@@ -31,4 +31,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "google_drive", "~> 0.3.6"
   spec.add_dependency "spreadsheet", "~> 0.8.9"
   spec.add_dependency "simple_xlsx_reader", "~> 0.9.8"
+  spec.add_dependency "nokogiri", "~> 1.6.1"
 end
