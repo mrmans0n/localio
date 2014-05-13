@@ -27,9 +27,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
   
-  spec.add_dependency "micro-optparse", "~> 1.1.5"
-  spec.add_dependency "google_drive", "~> 0.3.6"
-  spec.add_dependency "spreadsheet", "~> 0.8.9"
-  spec.add_dependency "simple_xlsx_reader", "~> 0.9.8"
-  spec.add_dependency "nokogiri", "~> 1.6.1"
+  spec.add_dependency "micro-optparse", "~> 1.1"
+  spec.add_dependency "google_drive", "~> 0.3"
+  spec.add_dependency "spreadsheet", "~> 0.8"
+  spec.add_dependency "simple_xlsx_reader", "~> 0.9"
+  spec.add_dependency "nokogiri", "~> 1.6"
 end

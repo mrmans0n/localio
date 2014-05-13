@@ -179,6 +179,16 @@ We can filter inversely too, with the command `only`. For example, if we only wa
 only :keys => '[\[][a][\]]'
 ````
 
+#### Overriding default language
+
+This only makes sense with `platform :android` at the moment. If we want to override (for whatever reason) the default language flag in the source spreadsheet, we can use `:override_default => 'language'`.
+
+For example, if we wanted to override the default (english) and use spanish instead, we could do this:
+
+```ruby
+platform :android, :override_default => 'es'
+```
+
 ## Contributing
 
 Please read the [contributing guide](https://github.com/mrmans0n/localio/blob/master/CONTRIBUTING.md).

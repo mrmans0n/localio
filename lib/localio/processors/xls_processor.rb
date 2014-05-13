@@ -3,11 +3,14 @@ require 'localio/term'
 
 class XlsProcessor
 
-  def self.load_localizables(options)
+  def self.load_localizables(platform_options, options)
 
     # Parameter validations
     path = options[:path]
     raise ArgumentError, ':path attribute is missing from the source, and it is required for xls spreadsheets' if path.nil?
+
+    override_default = nil
+    override_default = platform_options[:override_default] unless platform_options.nil? or platform_options[:override_default].nil?
 
     Spreadsheet.client_encoding = 'UTF-8'
 
@@ -44,6 +47,7 @@ class XlsProcessor
     raise 'There are no language columns in the worksheet' if languages.count == 0
 
     default_language = languages[0] if default_language.to_s == ''
+    default_language = override_default unless override_default.nil?
 
     puts "Languages detected: #{languages.keys.join(', ')} -- using #{default_language} as default."
 

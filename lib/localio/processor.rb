@@ -3,14 +3,14 @@ require 'localio/processors/xls_processor'
 require 'localio/processors/xlsx_processor'
 
 module Processor
-  def self.load_localizables(service, options)
+  def self.load_localizables(platform_options, service, options)
     case service
       when :google_drive
-        GoogleDriveProcessor.load_localizables options
+        GoogleDriveProcessor.load_localizables platform_options, options
       when :xls
-        XlsProcessor.load_localizables options
+        XlsProcessor.load_localizables platform_options, options
       when :xlsx
-        XlsxProcessor.load_localizables options
+        XlsxProcessor.load_localizables platform_options, options
       else
         raise ArgumentError, 'Unsupported service! Try with :google_drive, :xlsx or :xls in the source argument'
     end

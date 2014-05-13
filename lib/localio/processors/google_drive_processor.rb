@@ -3,7 +3,7 @@ require 'localio/term'
 
 class GoogleDriveProcessor
 
-  def self.load_localizables(options)
+  def self.load_localizables(platform_options, options)
 
     # Parameter validations
     spreadsheet = options[:spreadsheet]
@@ -12,6 +12,9 @@ class GoogleDriveProcessor
     raise ArgumentError, ':login required for Google Drive source!' if login.nil?
     password = options[:password]
     raise ArgumentError, ':password required for Google Drive source!' if password.nil?
+
+    override_default = nil
+    override_default = platform_options[:override_default] unless platform_options.nil? or platform_options[:override_default].nil?
 
     # Log in and get spreadsheet
     puts 'Logging in to Google Drive...'
@@ -68,6 +71,7 @@ class GoogleDriveProcessor
     abort 'There are no language columns in the worksheet' if languages.count == 0
 
     default_language = languages[0] if default_language.to_s == ''
+    default_language = override_default unless override_default.nil?
 
     puts "Languages detected: #{languages.keys.join(', ')} -- using #{default_language} as default."
 
