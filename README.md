@@ -163,7 +163,9 @@ formatting :camel_case
 
 Normally you would want a smart formatter, because it is adjusted (or tries to) to the usual code conventions of each platform for localizable strings.
 
-### Filtering content
+### Advanced options
+
+#### Filtering content
 
 We can establish filters to the keys by using regular expressions.
 
@@ -178,8 +180,6 @@ We can filter inversely too, with the command `only`. For example, if we only wa
 ````ruby
 only :keys => '[\[][a][\]]'
 ````
-
-### Advanced options
 
 #### Overriding default language
 
