@@ -179,6 +179,8 @@ We can filter inversely too, with the command `only`. For example, if we only wa
 only :keys => '[\[][a][\]]'
 ````
 
+### Advanced options
+
 #### Overriding default language
 
 This only makes sense with `platform :android` at the moment. If we want to override (for whatever reason) the default language flag in the source spreadsheet, we can use `:override_default => 'language'`.
