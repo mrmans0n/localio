@@ -71,8 +71,8 @@ Option                      | Description                                       
 #### Supported platforms
 
 * `:android` for Android string.xml files. The `output_path` needed is the path for the `res` directory.
-* `:ios` for iOS Localizable.strings files. The `output_path` needed is base directory where `en.lproj/` and such would go. Also creates header file with objective-c macros.
-* `:swift` for iOS Localizable.strings files. The `output_path` needed is base directory where `en.lproj/` and such would go. Also creates source file with swift constants.
+* `:ios` for iOS Localizable.strings files. The `output_path` needed is base directory where `en.lproj/` and such would go. Also creates header file with Objective-C macros.
+* `:swift` for iOS Localizable.strings files. The `output_path` needed is base directory where `en.lproj/` and such would go. Also creates source file with Swift constants.
 * `:rails` for Rails YAML files. The `output_path` needed is your `config/locales` directory.
 * `:json` for an easy JSON format for localizables. The `output_path` is yours to decide :)
 * `:java_properties` for .properties files used mainly in Java. Files named language_(lang).properties will be generated in `output_path`'s root directory.
@@ -146,15 +146,15 @@ If you don't specify a formatter for keys, :smart will be used.
 
 Here you have some examples on how the behavior would be:
 
-Platform           | "App name"   | "ANOTHER_KIND_OF_KEY"
--------------------|--------------|----------------------
-`:none`            | `App name`   | `ANOTHER_KIND_OF_KEY`
-`:snake_case`      | `app_name`   | `another_kind_of_key`
-`:camel_case`      | `appName`    | `AnotherKindOfKey`
-`:smart` (ios)     | `_App_name`  | `_Another_kind_of_key`
-`:smart` (android) | `app_name`   | `another_kind_of_key`
-`:smart` (ruby)    | `app_name`   | `another_kind_of_key`
-`:smart` (json)    | `app_name`   | `another_kind_of_key`
+Platform             | "App name"   | "ANOTHER_KIND_OF_KEY"
+---------------------|--------------|----------------------
+`:none`              | `App name`   | `ANOTHER_KIND_OF_KEY`
+`:snake_case`        | `app_name`   | `another_kind_of_key`
+`:camel_case`        | `appName`    | `AnotherKindOfKey`
+`:smart` (ios/swift) | `_App_name`  | `_Another_kind_of_key`
+`:smart` (android)   | `app_name`   | `another_kind_of_key`
+`:smart` (ruby)      | `app_name`   | `another_kind_of_key`
+`:smart` (json)      | `app_name`   | `another_kind_of_key`
 
 Example of use:
 
