@@ -1,8 +1,10 @@
 require 'localio/writers/android_writer'
 require 'localio/writers/ios_writer'
+require 'localio/writers/swift_writer'
 require 'localio/writers/json_writer'
 require 'localio/writers/rails_writer'
 require 'localio/writers/java_properties_writer'
+
 
 module LocalizableWriter
   def self.write(platform, languages, terms, path, formatter, options)
@@ -11,6 +13,8 @@ module LocalizableWriter
         AndroidWriter.write languages, terms, path, formatter, options
       when :ios
         IosWriter.write languages, terms, path, formatter, options
+      when :swift
+        SwiftWriter.write languages, terms, path, formatter, options
       when :json
         JsonWriter.write languages, terms, path, formatter, options
       when :rails
