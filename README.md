@@ -71,7 +71,8 @@ Option                      | Description                                       
 #### Supported platforms
 
 * `:android` for Android string.xml files. The `output_path` needed is the path for the `res` directory.
-* `:ios` for iOS Localizable.strings files. The `output_path` needed is base directory where `en.lproj/` and such would go.
+* `:ios` for iOS Localizable.strings files. The `output_path` needed is base directory where `en.lproj/` and such would go. Also creates header file with objective-c macros.
+* `:swift` for iOS Localizable.strings files. The `output_path` needed is base directory where `en.lproj/` and such would go. Also creates source file with swift constants.
 * `:rails` for Rails YAML files. The `output_path` needed is your `config/locales` directory.
 * `:json` for an easy JSON format for localizables. The `output_path` is yours to decide :)
 * `:java_properties` for .properties files used mainly in Java. Files named language_(lang).properties will be generated in `output_path`'s root directory.
