@@ -77,6 +77,19 @@ Option                      | Description                                       
 * `:json` for an easy JSON format for localizables. The `output_path` is yours to decide :)
 * `:java_properties` for .properties files used mainly in Java. Files named language_(lang).properties will be generated in `output_path`'s root directory.
 
+#### Extra platform parameters
+
+##### iOS (:ios, :swift)
+
+In iOS we can opt-out from the constants/macros. We will simple need to add :create_constants => false.
+
+Example:
+
+````ruby
+platform :ios, :create_constants => false
+# ... rest of your Locfile ...
+````
+
 #### Supported sources
 
 ##### Google Drive

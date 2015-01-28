@@ -6,6 +6,7 @@ require 'localio/formatter'
 class SwiftWriter
   def self.write(languages, terms, path, formatter, options)
     puts 'Writing iOS translations...'
+    create_constants = options[:create_constants].nil? ? true : options[:create_constants]
 
     constant_segments = nil
     languages.keys.each do |lang|
@@ -34,7 +35,7 @@ class SwiftWriter
       puts " > #{lang.yellow}"
     end
 
-    unless constant_segments.nil?
+    if create_constants && !constant_segments.nil?
       TemplateHandler.process_template 'swift_constant_localizable.erb', path, 'LocalizableConstants.swift', constant_segments
       puts ' > ' + 'LocalizableConstants.swift'.yellow
     end
@@ -45,8 +46,8 @@ class SwiftWriter
   def self.swift_key_formatter(key)
     '_'+key.space_to_underscore.strip_tag.capitalize
   end
-  
+
   def self.swift_constant_formatter(key)
-    'kLocale'+key.space_to_underscore.strip_tag.camel_case  
+    'kLocale'+key.space_to_underscore.strip_tag.camel_case
   end
 end

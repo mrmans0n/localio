@@ -49,12 +49,13 @@ module Localio
   end
 
   def self.build_localizables
+    @configuration.platform_options[:default_language] = @localizables[:default_language]
     LocalizableWriter.write @configuration.platform_name,
                             @localizables[:languages],
                             @localizables[:segments],
                             @configuration.output_path,
                             @configuration.formatting,
-                            :default_language => @localizables[:default_language]
+                            @configuration.platform_options
     puts 'Done!'.green
   end
 

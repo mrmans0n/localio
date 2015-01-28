@@ -6,6 +6,7 @@ require 'localio/formatter'
 class IosWriter
   def self.write(languages, terms, path, formatter, options)
     puts 'Writing iOS translations...'
+    create_constants = options[:create_constants].nil? ? true : options[:create_constants]
 
     constant_segments = nil
     languages.keys.each do |lang|
@@ -34,10 +35,11 @@ class IosWriter
       puts " > #{lang.yellow}"
     end
 
-    unless constant_segments.nil?
+    if create_constants && !constant_segments.nil?
       TemplateHandler.process_template 'ios_constant_localizable.erb', path, 'LocalizableConstants.h', constant_segments
       puts ' > ' + 'LocalizableConstants.h'.yellow
     end
+
   end
 
   private
@@ -45,8 +47,9 @@ class IosWriter
   def self.ios_key_formatter(key)
     '_'+key.space_to_underscore.strip_tag.capitalize
   end
-  
+
   def self.ios_constant_formatter(key)
-    'kLocale'+key.space_to_underscore.strip_tag.camel_case  
+    'kLocale'+key.space_to_underscore.strip_tag.camel_case
   end
+
 end
