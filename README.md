@@ -79,9 +79,9 @@ Option                      | Description                                       
 
 #### Extra platform parameters
 
-##### iOS (:ios, :swift)
+##### iOS - :ios, :swift
 
-In iOS we can opt-out from the constants/macros. We will simple need to add :create_constants => false.
+We can opt-out from the constants/macros. We will simple need to add :create_constants => false. By default, if ommited, the constants will be always created. It's a good practice, to have a compile-time check of the existence of your keys; but if you don't like it it's fine. 
 
 Example:
 
