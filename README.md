@@ -76,6 +76,7 @@ Option                      | Description                                       
 * `:rails` for Rails YAML files. The `output_path` needed is your `config/locales` directory.
 * `:json` for an easy JSON format for localizables. The `output_path` is yours to decide :)
 * `:java_properties` for .properties files used mainly in Java. Files named language_(lang).properties will be generated in `output_path`'s root directory.
+* `:resx` for .resx files used by .NET projects, e.g. Windows Forms, Windows Phone or Xamarin.
 
 #### Extra platform parameters
 
@@ -87,6 +88,17 @@ Example:
 
 ````ruby
 platform :ios, :create_constants => false
+# ... rest of your Locfile ...
+````
+
+##### ResX - :resx
+
+The default resource file name is `Resources.resx`. We can set a different base name using the `:resource_file` option.
+
+````ruby
+# Generate WebResources.resx, WebResources.es.resx, etc.
+platform :resx, :resource_file => "WebResources" 
+
 # ... rest of your Locfile ...
 ````
 
@@ -168,6 +180,7 @@ Platform             | "App name"   | "ANOTHER_KIND_OF_KEY"
 `:smart` (android)   | `app_name`   | `another_kind_of_key`
 `:smart` (ruby)      | `app_name`   | `another_kind_of_key`
 `:smart` (json)      | `app_name`   | `another_kind_of_key`
+`:smart` (resx)      | `AppName`    | `AnotherKindOfKey`
 
 Example of use:
 
@@ -197,7 +210,7 @@ only :keys => '[\[][a][\]]'
 
 #### Overriding default language
 
-This only makes sense with `platform :android` at the moment. If we want to override (for whatever reason) the default language flag in the source spreadsheet, we can use `:override_default => 'language'`.
+This only makes sense with `platform :android` and `platform :resx` at the moment. If we want to override (for whatever reason) the default language flag in the source spreadsheet, we can use `:override_default => 'language'`.
 
 For example, if we wanted to override the default (english) and use spanish instead, we could do this:
 
