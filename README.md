@@ -47,10 +47,8 @@ platform :ios
 
 output_path 'out/'
 
-source :google_drive,
-       :spreadsheet => '[Localizables] My Project!',
-       :login => 'your_email@gmail.com',
-       :password => 'your_password'
+source :xlsx,
+       :path => 'my_translations.xlsx'
 
 formatting :smart # This is optional, formatting :smart is used by default.
 ````
@@ -113,25 +111,47 @@ You will have to provide some required parameters too. Here is a list of all the
 Option                      | Description
 ----------------------------|-------------------------------------------------------------------------
 `:spreadsheet`              | (Req.) Title of the spreadsheet you want to use. Can be a partial match.
-`:login`                    | (Req.) Your Google login.
-`:password`                 | (Req.) Your Google password.
+`:login`                    | **DEPRECATED** This is deprecated starting version 0.1.0. Please remove it.
+`:password`                 | **DEPRECATED** This is deprecated starting version 0.1.0. Please remove it.
+`:client_id`                | (Req.) Your Google CLIENT ID.
+`:client_secret`            | (Req.) Your Google CLIENT SECRET.
+`:access_token`             | Your generated access token. You will get it the first time you log in and give permissions to your generated Google Developer Console application.
 
-**NOTE** As it is a very bad practice to put your login and your password in a plain file, specially when you would want to upload your project to some repository, it is **VERY RECOMMENDED** that you use environment variables in here. Ruby syntax is accepted so you can use `ENV['GOOGLE_LOGIN']` and `ENV['GOOGLE_PASSWORD']` in here.
+Please take into account that from version 0.1.0 of Localio onwards we are using **Google OAuth2 authentication**, as the previous one with login/password has been deprecated by Google and cannot be access anymore starting April 20th 2015.
+
+Setting it up is a bit of a pain, although it is only required the first time and can be shared by all your projects:
+
+1. You have to create a new project in Google Developers Console for using Drive API. You can do that [here](https://console.developers.google.com/flows/enableapi?apiid=drive).
+2. After it is created you will be redirected to the credentials section (if not, just select under APIs and authentication in the sidebar the Credentials section), where you will click in the button labeled **Create new client ID**.
+3. Select the third option, the one that says something like **Installed Application**.
+4. Fill the form with whatever you want. For example, you could put Localio as the product name (the only thing required there).
+5. Select again the third option, **Installed Application**, and in the platform selector select the last one, **Others**.
+6. You will have all the necessary information in the next screen: Client ID and Client Secret.
+
+After doing all this, you are ready to add `:client_id` and `:client_secret` fields to your Locfile `source`.
+
+Then, the first time you run it, you will be prompted to follow some instructions. You will be asked to open a website, where you will be prompted for permission to use the Drive API. After you allow it, you will be given an authorization code, which you will have to paste in your terminal screen when prompted.
+
+After all this is done, you will be given in the `:access_token` in the output. Just add it to the `source` parameters, as you did with the id and secret before, and that's it. Hopefully you won't happen to repeat any of these steps for a long time.
+
+**NOTE** As it is a very bad practice to put your sensitive information in a plain file, specially when you would want to upload your project to some repository, it is **VERY RECOMMENDED** that you use environment variables in here. Ruby syntax is accepted so you can use `ENV['CLIENT_SECRET']`, `ENV['CLIENT_ID']` and `ENV['ACCESS_TOKEN']` in here.
 
 For example, this.
 
 ````ruby
 source :google_drive,
        :spreadsheet => '[Localizables] My Project!',
-       :login => ENV['GOOGLE_LOGIN'],
-       :password => ENV['GOOGLE_PASSWORD']
+       :client_id => ENV['CLIENT_ID'],
+       :client_secret => ENV['CLIENT_SECRET'],
+       :access_token => ENV['ACCESS_TOKEN']
 ````
 
 And in your .bashrc (or .bash_profile, .zshrc or whatever), you could export those environment variables like this:
 
 ````ruby
-export GOOGLE_LOGIN="your_login"
-export GOOGLE_PASSWORD="your_password"
+export CLIENT_ID="your_client_id"
+export CLIENT_SECRET="your_client_secret"
+export ACCESS_TOKEN="your_access_token"
 ````
 
 ##### XLS
