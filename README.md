@@ -128,11 +128,28 @@ Setting it up is a bit of a pain, although it is only required the first time an
 5. Select again the third option, **Installed Application**, and in the platform selector select the last one, **Others**.
 6. You will have all the necessary information in the next screen: Client ID and Client Secret.
 
-After doing all this, you are ready to add `:client_id` and `:client_secret` fields to your Locfile `source`.
+After doing all this, you are ready to add `:client_id` and `:client_secret` fields to your Locfile `source`. It will look somewhat like this at this stage:
+
+```ruby
+source :google_drive,
+       :spreadsheet => '[Localizables] My Project',
+       :client_id => 'XXXXXXXXX-XXXXXXXX.apps.googleusercontent.com',
+       :client_secret => 'asdFFGGhjKlzxcvbnm'
+```
 
 Then, the first time you run it, you will be prompted to follow some instructions. You will be asked to open a website, where you will be prompted for permission to use the Drive API. After you allow it, you will be given an authorization code, which you will have to paste in your terminal screen when prompted.
 
-After all this is done, you will be given in the `:access_token` in the output. Just add it to the `source` parameters, as you did with the id and secret before, and that's it. Hopefully you won't happen to repeat any of these steps for a long time.
+After all this is done, you will be given in the `:access_token` in the output. Just add it to the `source` parameters, as you did with the id and secret before, and that's it. It will look now like this:
+
+```ruby
+source :google_drive,
+       :spreadsheet => '[Localizables] My Project',
+       :client_id => 'XXXXXXXXX-XXXXXXXX.apps.googleusercontent.com',
+       :client_secret => 'asdFFGGhjKlzxcvbnm',
+       :access_token => 'ya29.RAEXXxxxxsadsadajsdhasuidhakjsdhkajhsduiahsduiasd89a8912'
+```
+
+When the Locfile contains the `:access_token`, all the login in process for generating localizables will be automatic and won't require your attention. The parameters for `:client_id` and `:client_secret` are not really needed anymore, although you could leave them there if you want.
 
 **NOTE** As it is a very bad practice to put your sensitive information in a plain file, specially when you would want to upload your project to some repository, it is **VERY RECOMMENDED** that you use environment variables in here. Ruby syntax is accepted so you can use `ENV['CLIENT_SECRET']`, `ENV['CLIENT_ID']` and `ENV['ACCESS_TOKEN']` in here.
 
