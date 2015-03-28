@@ -8,10 +8,23 @@ class GoogleDriveProcessor
     # Parameter validations
     spreadsheet = options[:spreadsheet]
     raise ArgumentError, ':spreadsheet required for Google Drive source!' if spreadsheet.nil?
+
+    # Deprecate :login & :password
     login = options[:login]
-    raise ArgumentError, ':login required for Google Drive source!' if login.nil?
+    raise ArgumentError, ':login is deprecated. You should use :client_id and :client_secret for secure OAuth2 authentication.' unless login.nil?
     password = options[:password]
-    raise ArgumentError, ':password required for Google Drive source!' if password.nil?
+    raise ArgumentError, ':password is deprecated. You should use :client_id and :client_secret for secure OAuth2 authentication.' unless password.nil?
+
+    # New authentication way
+    client_id = options[:client_id]
+    client_secret = options[:client_secret]
+    access_token = options[:access_token]
+
+    # We need client_id / client_secret if we dont have an access token
+    if access_token.nil?
+      raise ArgumentError, ':client_id required for Google Drive. Check how to get it here: https://developers.google.com/drive/web/auth/web-server' if client_id.nil?
+      raise ArgumentError, ':client_secret required for Google Drive. Check how to get it here: https://developers.google.com/drive/web/auth/web-server' if client_secret.nil?
+    end
 
     override_default = nil
     override_default = platform_options[:override_default] unless platform_options.nil? or platform_options[:override_default].nil?
@@ -19,9 +32,30 @@ class GoogleDriveProcessor
     # Log in and get spreadsheet
     puts 'Logging in to Google Drive...'
     begin
-      session = GoogleDrive.login(login, password)
-    rescue
-      raise 'Couldn\'t access Google Drive. Check your credentials in :login and :password'
+      if access_token.nil?
+        puts "No :access_token found. Let\'s proceed to get one!".red
+        client = Google::APIClient.new application_name: 'Localio', application_version: Localio::VERSION
+        auth = client.authorization
+        auth.client_id = client_id
+        auth.client_secret = client_secret
+        auth.scope =
+            "https://www.googleapis.com/auth/drive " +
+                "https://spreadsheets.google.com/feeds/"
+        auth.redirect_uri = "urn:ietf:wg:oauth:2.0:oob"
+        puts "1. Open this page in your browser:\n#{auth.authorization_uri}\n\n"
+        puts "2. Enter the authorization code shown in the page: "
+        auth.code = $stdin.gets.chomp
+        auth.fetch_access_token!
+        access_token = auth.access_token
+        puts '\n**IMPORTANT** You can store your access_token in the Locfile :source parameter for avoiding this step in the future:\n'
+        puts ":access_token => '#{access_token}'".yellow
+        puts '\n\n'
+      end
+      # Creates a session
+      session = GoogleDrive.login_with_oauth(access_token)
+    rescue => e
+      puts "Error: #{e.inspect}"
+      raise 'Couldn\'t access Google Drive. Check your values for :client_id and :client_secret, and delete :access_token if present (you might need to refresh its value so please remove it)'
     end
     puts 'Logged in!'
 
@@ -63,8 +97,8 @@ class GoogleDriveProcessor
     for column in 2..worksheet.max_cols
       col_all = worksheet[first_valid_row_index, column]
       col_all.each_line(' ') do |col_text|
-        default_language = col_text.downcase.gsub('*','') if col_text.include? '*'
-        languages.store col_text.downcase.gsub('*',''), column unless col_text.to_s == ''
+        default_language = col_text.downcase.gsub('*', '') if col_text.include? '*'
+        languages.store col_text.downcase.gsub('*', ''), column unless col_text.to_s == ''
       end
     end
 
