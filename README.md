@@ -18,7 +18,7 @@ Or install it yourself as:
 
 ## Usage
 
-You have to create a custom file, Locfile, similar to Rakefile or Gemfile, with some information for this to work. Also you must have some spreadsheet with a particular format, either in Google Drive or in Excel (XLS or XLSX) format.
+You have to create a custom file, Locfile, similar to Rakefile or Gemfile, with some information for this to work. Also you must have some spreadsheet with a particular format, either in Google Drive, CSV files or in Excel (XLS or XLSX) format.
 
 In your Locfile directory you can then execute
 
@@ -45,12 +45,10 @@ A minimal `Locfile` example could be:
 ````ruby
 platform :ios
 
-output_path 'out/'
+output_path 'my_output_path/'
 
 source :xlsx,
        :path => 'my_translations.xlsx'
-
-formatting :smart # This is optional, formatting :smart is used by default.
 ````
 
 This would connect localio to your Google Drive and process the spreadsheet with title "[Localizables] My Project!".
@@ -195,6 +193,23 @@ Option                      | Description
 ````ruby
 source :xlsx,
        :path => 'YourExcelFileWithTranslations.xlsx'
+````
+
+##### CSV
+
+`source :csv` will use a local CSV file. In the parameter's hash you should specify a `:path`.
+
+Option                      | Description
+----------------------------|-------------------------------------------------------------------------
+`:path`                     | (Req.) Path for your CSV file.
+`:column_separator`         | By default it is ',', but you can change it with this parameter
+
+In this example we specify tabs as separators for translation columns. The `:column_separator` is not needed if the separator is a comma and could be removed.
+
+````ruby
+source :csv,
+       :path => 'YourCSVTranslations.csv',
+       :column_separator => '\t'
 ````
 
 #### Key formatters
