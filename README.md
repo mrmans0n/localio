@@ -113,7 +113,6 @@ Option                      | Description
 `:password`                 | **DEPRECATED** This is deprecated starting version 0.1.0. Please remove it.
 `:client_id`                | (Req.) Your Google CLIENT ID.
 `:client_secret`            | (Req.) Your Google CLIENT SECRET.
-`:access_token`             | Your generated access token. You will get it the first time you log in and give permissions to your generated Google Developer Console application.
 
 Please take into account that from version 0.1.0 of Localio onwards we are using **Google OAuth2 authentication**, as the previous one with login/password has been deprecated by Google and cannot be access anymore starting April 20th 2015.
 
@@ -137,19 +136,9 @@ source :google_drive,
 
 Then, the first time you run it, you will be prompted to follow some instructions. You will be asked to open a website, where you will be prompted for permission to use the Drive API. After you allow it, you will be given an authorization code, which you will have to paste in your terminal screen when prompted.
 
-After all this is done, you will be given in the `:access_token` in the output. Just add it to the `source` parameters, as you did with the id and secret before, and that's it. It will look now like this:
+**NOTE** A hidden file, called .localio.yml, will be created in your Locfile directory. You should **add that file to your ignored resources** in your repository, aka the **.gitignore** file.
 
-```ruby
-source :google_drive,
-       :spreadsheet => '[Localizables] My Project',
-       :client_id => 'XXXXXXXXX-XXXXXXXX.apps.googleusercontent.com',
-       :client_secret => 'asdFFGGhjKlzxcvbnm',
-       :access_token => 'ya29.RAEXXxxxxsadsadajsdhasuidhakjsdhkajhsduiahsduiasd89a8912'
-```
-
-When the Locfile contains the `:access_token`, all the login in process for generating localizables will be automatic and won't require your attention. The parameters for `:client_id` and `:client_secret` are not really needed anymore, although you could leave them there if you want.
-
-**NOTE** As it is a very bad practice to put your sensitive information in a plain file, specially when you would want to upload your project to some repository, it is **VERY RECOMMENDED** that you use environment variables in here. Ruby syntax is accepted so you can use `ENV['CLIENT_SECRET']`, `ENV['CLIENT_ID']` and `ENV['ACCESS_TOKEN']` in here.
+**NOTE** As it is a very bad practice to put your sensitive information in a plain file, specially when you would want to upload your project to some repository, it is **VERY RECOMMENDED** that you use environment variables in here. Ruby syntax is accepted so you can use `ENV['CLIENT_SECRET']` and `ENV['CLIENT_ID']` in here.
 
 For example, this.
 
@@ -157,8 +146,7 @@ For example, this.
 source :google_drive,
        :spreadsheet => '[Localizables] My Project!',
        :client_id => ENV['CLIENT_ID'],
-       :client_secret => ENV['CLIENT_SECRET'],
-       :access_token => ENV['ACCESS_TOKEN']
+       :client_secret => ENV['CLIENT_SECRET']
 ````
 
 And in your .bashrc (or .bash_profile, .zshrc or whatever), you could export those environment variables like this:
@@ -166,7 +154,6 @@ And in your .bashrc (or .bash_profile, .zshrc or whatever), you could export tho
 ````ruby
 export CLIENT_ID="your_client_id"
 export CLIENT_SECRET="your_client_secret"
-export ACCESS_TOKEN="your_access_token"
 ````
 
 ##### XLS
