@@ -1,10 +1,10 @@
 require 'google_drive'
 require 'localio/term'
+require 'localio/config_store'
 
 class GoogleDriveProcessor
 
   def self.load_localizables(platform_options, options)
-
     # Parameter validations
     spreadsheet = options[:spreadsheet]
     raise ArgumentError, ':spreadsheet required for Google Drive source!' if spreadsheet.nil?
@@ -18,13 +18,10 @@ class GoogleDriveProcessor
     # New authentication way
     client_id = options[:client_id]
     client_secret = options[:client_secret]
-    access_token = options[:access_token]
 
-    # We need client_id / client_secret if we dont have an access token
-    if access_token.nil?
-      raise ArgumentError, ':client_id required for Google Drive. Check how to get it here: https://developers.google.com/drive/web/auth/web-server' if client_id.nil?
-      raise ArgumentError, ':client_secret required for Google Drive. Check how to get it here: https://developers.google.com/drive/web/auth/web-server' if client_secret.nil?
-    end
+    # We need client_id / client_secret
+    raise ArgumentError, ':client_id required for Google Drive. Check how to get it here: https://developers.google.com/drive/web/auth/web-server' if client_id.nil?
+    raise ArgumentError, ':client_secret required for Google Drive. Check how to get it here: https://developers.google.com/drive/web/auth/web-server' if client_secret.nil?
 
     override_default = nil
     override_default = platform_options[:override_default] unless platform_options.nil? or platform_options[:override_default].nil?
@@ -32,25 +29,37 @@ class GoogleDriveProcessor
     # Log in and get spreadsheet
     puts 'Logging in to Google Drive...'
     begin
-      if access_token.nil?
-        puts "No :access_token found. Let\'s proceed to get one!".red
-        client = Google::APIClient.new application_name: 'Localio', application_version: Localio::VERSION
-        auth = client.authorization
-        auth.client_id = client_id
-        auth.client_secret = client_secret
-        auth.scope =
-            "https://www.googleapis.com/auth/drive " +
-                "https://spreadsheets.google.com/feeds/"
-        auth.redirect_uri = "urn:ietf:wg:oauth:2.0:oob"
+      client = Google::APIClient.new application_name: 'Localio', application_version: Localio::VERSION
+      auth = client.authorization
+      auth.client_id = client_id
+      auth.client_secret = client_secret
+      auth.scope =
+          "https://docs.google.com/feeds/" +
+              "https://www.googleapis.com/auth/drive " +
+              "https://spreadsheets.google.com/feeds/"
+      auth.redirect_uri = "urn:ietf:wg:oauth:2.0:oob"
+
+      config = ConfigStore.new
+
+      access_token = nil
+
+      if config.has? :refresh_token
+        puts 'Refreshing auth token...'
+        auth.refresh_token = config.get :refresh_token
+        auth.refresh!
+        access_token = auth.access_token
+      else
         puts "1. Open this page in your browser:\n#{auth.authorization_uri}\n\n"
         puts "2. Enter the authorization code shown in the page: "
         auth.code = $stdin.gets.chomp
         auth.fetch_access_token!
         access_token = auth.access_token
-        puts '\n**IMPORTANT** You can store your access_token in the Locfile :source parameter for avoiding this step in the future:\n'
-        puts ":access_token => '#{access_token}'".yellow
-        puts '\n\n'
       end
+
+      config.store :refresh_token, auth.refresh_token
+      config.store :access_token, auth.access_token
+      config.persist
+
       # Creates a session
       session = GoogleDrive.login_with_oauth(access_token)
     rescue => e
@@ -70,7 +79,7 @@ class GoogleDriveProcessor
       when 0
         abort "Unable to find any spreadsheet matching your criteria: #{spreadsheet}"
       else
-        abort 'More than one match found. You have to be more specific!'
+        abort "More than one match found (#{matching_spreadsheets.join ', '}). You have to be more specific!"
     end
 
 
