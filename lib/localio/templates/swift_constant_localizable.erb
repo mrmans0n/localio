@@ -6,6 +6,8 @@ GENERATED - DO NOT MODIFY - use localio instead.
 Created by localio
 */
 
+import Foundation
+
 <% @segments.each do |term| %>
 let <%= term.key %>: String = { return NSLocalizedString("<%= term.translation %>", comment: "") }()<%
 end %>
