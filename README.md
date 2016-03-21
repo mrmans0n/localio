@@ -47,6 +47,8 @@ platform :ios
 
 output_path 'my_output_path/'
 
+output_filename 'custom.strings'
+
 source :xlsx,
        :path => 'my_translations.xlsx'
 ````
@@ -60,6 +62,7 @@ Option                      | Description                                       
 `platform`                  | (Req.) Target platform for the localizable files.                | `nil`
 `source`                    | (Req.) Information on where to find the spreadsheet w/ the info  | `nil`
 `output_path`               | (Req.) Target directory for the localizables.                    | `out/`
+`output_filename`           | Target file name        for the localizables.                    | nil
 `formatting`                | The formatter that will be used for key processing.              | `smart`
 `except`                    | Filter applied to the keys, process all except the matches.      | `nil`
 `only`                      | Filter applied to the keys, only process the matches.            | `nil`

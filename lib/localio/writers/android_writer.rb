@@ -13,6 +13,8 @@ class AndroidWriter
       output_path = File.join(path,"values-#{lang}/")
       output_path = File.join(path,'values/') if default_language == lang
 
+      output_filename = filename != nil ? filename : 'strings.xml'
+
       # We have now to iterate all the terms for the current language, extract them, and store them into a new array
 
       segments = SegmentsListHolder.new lang
@@ -24,7 +26,7 @@ class AndroidWriter
         segments.segments << segment
       end
 
-      TemplateHandler.process_template 'android_localizable.erb', output_path, 'strings.xml', segments
+      TemplateHandler.process_template 'android_localizable.erb', output_path, output_filename, segments
       puts " > #{lang.yellow}"
     end
 
