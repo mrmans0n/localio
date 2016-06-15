@@ -63,6 +63,7 @@ Option                      | Description                                       
 `formatting`                | The formatter that will be used for key processing.              | `smart`
 `except`                    | Filter applied to the keys, process all except the matches.      | `nil`
 `only`                      | Filter applied to the keys, only process the matches.            | `nil`
+`placeholder`               | Define specific placeholders to replace this in your localize strings.            | `nil`
 
 #### Supported platforms
 
@@ -258,6 +259,16 @@ We can filter inversely too, with the command `only`. For example, if we only wa
 ````ruby
 only :keys => '[\[][a][\]]'
 ````
+
+#### Specific placeholders
+
+Define specific placeholders (as dictionary) to replace this in your localize strings.
+
+**NOTE** This option is available only for the platform `:android`, `:ios` and `:swift`.
+
+```ruby
+placeholder :dict => {'{String}' => '%@', '{Number}' => '%i'}
+```
 
 #### Overriding default language
 
