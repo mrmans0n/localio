@@ -27,7 +27,10 @@ class Locfile
 
   # Defined using 'source' ideally
   dsl_accessor :source_service, :source_options
-
+  
+  # Defined using 'placeholder' ideally
+  dsl_accessor :placeholders
+  
   def initialize
     @platform_name = nil
     @platform_options = nil
@@ -36,6 +39,7 @@ class Locfile
     @source_options = nil
     @output_path = './out/'
     @formatting = :smart
+    @placeholders = nil
   end
 
   # Defines the platform
@@ -54,6 +58,13 @@ class Locfile
   def source(service, options = {})
     @source_service = service
     @source_options = options
+  end
+
+  # Defines the placeholder
+  #
+  # options : hash with extra options as dictionary
+  def placeholder(options = {})
+      @placeholders = options
   end
 
   def self.load(filename)

@@ -5,7 +5,7 @@ require 'localio/formatter'
 require 'nokogiri'
 
 class AndroidWriter
-  def self.write(languages, terms, path, formatter, options)
+  def self.write(languages, terms, path, formatter, options, placeholders)
     puts 'Writing Android translations...'
     default_language = options[:default_language]
 
@@ -18,7 +18,7 @@ class AndroidWriter
       segments = SegmentsListHolder.new lang
       terms.each do |term|
         key = Formatter.format(term.keyword, formatter, method(:android_key_formatter))
-        translation = android_parsing term.values[lang]
+        translation = placeholder_parsing term.values[lang], placeholders
         segment = Segment.new(key, translation, lang)
         segment.key = nil if term.is_comment?
         segments.segments << segment
@@ -35,8 +35,14 @@ class AndroidWriter
   def self.android_key_formatter(key)
     key.space_to_underscore.strip_tag.downcase
   end
-  
-  def self.android_parsing(term)
-    term.gsub('& ','&amp; ').gsub('...', '…').gsub('%@', '%s')
+
+  def self.placeholder_parsing(term, placeholders)
+    if (placeholders.class == NilClass)
+        term.gsub('& ','&amp; ').gsub('...', '…')
+    else
+        arr = placeholders.values
+        re = Regexp.union(arr[0].keys)
+        term.gsub('& ','&amp; ').gsub('...', '…').gsub(re, arr[0])
+    end
   end
 end

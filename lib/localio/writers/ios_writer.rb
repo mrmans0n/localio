@@ -4,7 +4,7 @@ require 'localio/segment'
 require 'localio/formatter'
 
 class IosWriter
-  def self.write(languages, terms, path, formatter, options)
+  def self.write(languages, terms, path, formatter, options, placeholders)
     puts 'Writing iOS translations...'
     create_constants = options[:create_constants].nil? ? true : options[:create_constants]
 
@@ -18,7 +18,7 @@ class IosWriter
       constant_segments = SegmentsListHolder.new lang
       terms.each do |term|
         key = Formatter.format(term.keyword, formatter, method(:ios_key_formatter))
-        translation = term.values[lang]
+        translation = placeholder_parsing term.values[lang], placeholders
         segment = Segment.new(key, translation, lang)
         segment.key = nil if term.is_comment?
         segments.segments << segment
@@ -52,4 +52,13 @@ class IosWriter
     'kLocale'+key.space_to_underscore.strip_tag.camel_case
   end
 
+  def self.placeholder_parsing(term, placeholders)
+    if (placeholders.class == NilClass)
+        term
+    else
+        arr = placeholders.values
+        re = Regexp.union(arr[0].keys)
+        term.gsub(re, arr[0])
+    end
+  end
 end
