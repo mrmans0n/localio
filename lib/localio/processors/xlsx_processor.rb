@@ -7,6 +7,7 @@ class XlsxProcessor
 
     # Parameter validations
     path = options[:path]
+    sheet_index = options[:sheet_index] || 0
     raise ArgumentError, ':path attribute is missing from the source, and it is required for xlsx spreadsheets' if path.nil?
 
     override_default = nil
@@ -15,7 +16,7 @@ class XlsxProcessor
     book = SimpleXlsxReader.open path
 
     # TODO we could pass a :page_index in the options hash and get that worksheet instead, defaulting to zero?
-    worksheet = book.sheets.first
+    worksheet = book.sheets[sheet_index]
     raise 'Unable to retrieve the first worksheet from the spreadsheet. Are there any pages?' if worksheet.nil?
 
     # At this point we have the worksheet, so we want to store all the key / values
