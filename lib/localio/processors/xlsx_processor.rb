@@ -23,7 +23,7 @@ class XlsxProcessor
     first_valid_row_index = nil
     last_valid_row_index = nil
         
-    for row in 1..worksheet.rows.count-1
+    for row in 0..worksheet.rows.count-1
       first_valid_row_index = row if worksheet.rows[row][0].to_s.downcase == '[key]'
       last_valid_row_index = row if worksheet.rows[row][0].to_s.downcase == '[end]'
     end
