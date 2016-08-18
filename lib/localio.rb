@@ -39,7 +39,8 @@ module Localio
   def self.process_to_memory
     @localizables = Processor.load_localizables @configuration.platform_options,
                                                 @configuration.source_service,
-                                                @configuration.source_options
+                                                @configuration.source_options,
+                                                @configuration.languages
   end
 
   def self.apply_filters

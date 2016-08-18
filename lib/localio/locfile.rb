@@ -28,6 +28,8 @@ class Locfile
   # Defined using 'source' ideally
   dsl_accessor :source_service, :source_options
 
+  dsl_accessor :languages
+
   def initialize
     @platform_name = nil
     @platform_options = nil
@@ -36,6 +38,7 @@ class Locfile
     @source_options = nil
     @output_path = './out/'
     @formatting = :smart
+    @languages = []
   end
 
   # Defines the platform
