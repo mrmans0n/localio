@@ -5,13 +5,14 @@ require 'localio/formatter'
 require 'nokogiri'
 
 class AndroidWriter
-  def self.write(languages, terms, path, formatter, options)
+  def self.write(languages, terms, path, filename, formatter, options)
     puts 'Writing Android translations...'
     default_language = options[:default_language]
 
     languages.keys.each do |lang|
       output_path = File.join(path,"values-#{lang}/")
       output_path = File.join(path,'values/') if default_language == lang
+      output_name = filename || "strings.xml"
 
       # We have now to iterate all the terms for the current language, extract them, and store them into a new array
 
@@ -24,7 +25,7 @@ class AndroidWriter
         segments.segments << segment
       end
 
-      TemplateHandler.process_template 'android_localizable.erb', output_path, 'strings.xml', segments
+      TemplateHandler.process_template 'android_localizable.erb', output_path, output_name, segments
       puts " > #{lang.yellow}"
     end
 

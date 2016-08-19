@@ -55,6 +55,7 @@ module Localio
                             @localizables[:languages],
                             @localizables[:segments],
                             @configuration.output_path,
+                            @configuration.output_name,
                             @configuration.formatting,
                             @configuration.platform_options
     puts 'Done!'.green
