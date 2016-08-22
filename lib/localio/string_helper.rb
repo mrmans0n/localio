@@ -27,6 +27,13 @@ class String
         downcase
   end
 
+  def strict_underscore
+    self.gsub(/::/, '/').
+        gsub(/([A-Z])/, '_\1').
+        tr("-", "_").
+        downcase
+  end
+
   def strip_tag
     self.gsub(/^[\[][a-z][\]]/, '')
   end
