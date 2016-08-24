@@ -3,7 +3,7 @@ require 'localio/term'
 
 class CsvProcessor
 
-  def self.load_localizables(platform_options, options)
+  def self.load_localizables(platform_options, options, allowed_languages)
 
     # Parameter validations
     path = options[:path]
@@ -36,8 +36,10 @@ class CsvProcessor
     for column in 1..csv_file[first_valid_row_index].count-1
       col_all = csv_file[first_valid_row_index][column].to_s
       col_all.each_line(' ') do |col_text|
-        default_language = col_text.downcase.gsub('*', '') if col_text.include? '*'
-        languages.store col_text.downcase.gsub('*', ''), column unless col_text.to_s == ''
+        lang = col_text.downcase.gsub('*', '')
+        next unless allowed_languages.include? lang.to_sym
+        default_language = lang if col_text.include? '*'
+        languages.store lang, column unless col_text.to_s == ''
       end
     end
 
