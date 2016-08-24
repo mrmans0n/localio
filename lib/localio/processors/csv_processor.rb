@@ -21,7 +21,7 @@ class CsvProcessor
     first_valid_row_index = nil
     last_valid_row_index = nil
 
-    for row in 1..csv_file.length-1
+    for row in 0..csv_file.length-1
       first_valid_row_index = row if csv_file[row][0].to_s.downcase == '[key]'
       last_valid_row_index = row if csv_file[row][0].to_s.downcase == '[end]'
     end
