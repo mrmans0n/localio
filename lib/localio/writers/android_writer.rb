@@ -3,6 +3,7 @@ require 'localio/segments_list_holder'
 require 'localio/segment'
 require 'localio/formatter'
 require 'nokogiri'
+require 'rexml/text'
 
 class AndroidWriter
   def self.write(languages, terms, path, filename, formatter, options)
@@ -31,13 +32,15 @@ class AndroidWriter
 
   end
 
-  private
-
   def self.android_key_formatter(key)
     key.space_to_underscore.strip_tag.downcase
   end
-  
+
   def self.android_parsing(term)
-    term.gsub('& ','&amp; ').gsub('...', '…').gsub('%@', '%s')
+    encoded_term = term.gsub('...', '…').
+                        gsub('%@', '%s').
+
+    REXML::Text.new(encoded_term).to_s.gsub("&apos;", %q(\\\'))
   end
+
 end
