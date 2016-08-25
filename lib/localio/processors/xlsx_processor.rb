@@ -3,10 +3,11 @@ require 'localio/term'
 
 class XlsxProcessor
 
-  def self.load_localizables(platform_options, options)
+  def self.load_localizables(platform_options, options, allowed_languages)
 
     # Parameter validations
     path = options[:path]
+    sheet_index = options[:sheet_index] || 0
     raise ArgumentError, ':path attribute is missing from the source, and it is required for xlsx spreadsheets' if path.nil?
 
     override_default = nil
@@ -15,14 +16,14 @@ class XlsxProcessor
     book = SimpleXlsxReader.open path
 
     # TODO we could pass a :page_index in the options hash and get that worksheet instead, defaulting to zero?
-    worksheet = book.sheets.first
+    worksheet = book.sheets[sheet_index]
     raise 'Unable to retrieve the first worksheet from the spreadsheet. Are there any pages?' if worksheet.nil?
 
     # At this point we have the worksheet, so we want to store all the key / values
     first_valid_row_index = nil
     last_valid_row_index = nil
         
-    for row in 1..worksheet.rows.count-1
+    for row in 0..worksheet.rows.count-1
       first_valid_row_index = row if worksheet.rows[row][0].to_s.downcase == '[key]'
       last_valid_row_index = row if worksheet.rows[row][0].to_s.downcase == '[end]'
     end
@@ -37,8 +38,10 @@ class XlsxProcessor
     for column in 1..worksheet.rows[first_valid_row_index].count-1
       col_all = worksheet.rows[first_valid_row_index][column].to_s
       col_all.each_line(' ') do |col_text|
-        default_language = col_text.downcase.gsub('*','') if col_text.include? '*'
-        languages.store col_text.downcase.gsub('*',''), column unless col_text.to_s == ''
+        lang = col_text.downcase.gsub('*', '')
+        next unless allowed_languages.include? lang.to_sym
+        default_language = lang if col_text.include? '*'
+        languages.store lang, column unless col_text.to_s == ''
       end
     end
     

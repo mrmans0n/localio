@@ -13,8 +13,10 @@ module Formatter
         key.space_to_underscore.strip_tag.camel_case
       when :snake_case
         key.space_to_underscore.strip_tag.downcase
+      when :strict_snake_case
+        key.space_to_underscore.split("_").map { |part| part.strict_underscore }.join("_")
       else
-        raise ArgumentError, 'Unknown formatting used. Must use :smart, :none, :camel_case or :snake_case'
+        raise ArgumentError, 'Unknown formatting used. Must use :smart, :none, :camel_case, :snake_case or :strict_snake_case'
     end
   end
 end

@@ -10,6 +10,8 @@ class Locfile
 
   # Specifies the filesystem path where the generated files will be
   dsl_accessor :output_path
+  
+  dsl_accessor :output_name
 
   # Specifies the format for the keys in the localizable file
   #
@@ -28,6 +30,8 @@ class Locfile
   # Defined using 'source' ideally
   dsl_accessor :source_service, :source_options
 
+  dsl_accessor :languages
+
   def initialize
     @platform_name = nil
     @platform_options = nil
@@ -35,7 +39,9 @@ class Locfile
     @source_path = nil
     @source_options = nil
     @output_path = './out/'
+    @output_name = ''
     @formatting = :smart
+    @languages = []
   end
 
   # Defines the platform
