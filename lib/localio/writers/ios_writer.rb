@@ -18,7 +18,7 @@ class IosWriter
       constant_segments = SegmentsListHolder.new lang
       terms.each do |term|
         key = Formatter.format(term.keyword, formatter, method(:ios_key_formatter))
-        translation = term.values[lang]
+        translation = ios_parsing term.values[lang]
         segment = Segment.new(key, translation, lang)
         segment.key = nil if term.is_comment?
         segments.segments << segment
@@ -40,6 +40,12 @@ class IosWriter
       puts ' > ' + 'LocalizableConstants.h'.yellow
     end
 
+  end
+
+  def self.ios_parsing(term)
+    term.gsub(/<s\$(\d)>/, '%\1$@').#<s$1> -> %1$@ for string/object params
+         gsub(/<d\$(\d)>/, '%\1$d').#<d$1> -> %1$d for integer params
+         gsub(/<c\$(\d)>/, '%\1$s') #<c$1> -> %1$s for char params
   end
 
   private
