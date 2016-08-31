@@ -39,7 +39,7 @@ class AndroidWriter
   def self.android_parsing(term)
     encoded_term = term.gsub('...', '…').
                         gsub('%@', '%s').
-                        gsub(/<\$(\d)>/, '%\1$s')
+                        gsub(/<([A-z]+)\$(\d)>/, '%\2$\1') #<s$1> -> %1$s
 
     REXML::Text.new(encoded_term).to_s.gsub("&apos;", %q(\\\'))
   end
