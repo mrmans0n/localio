@@ -17,6 +17,7 @@ class IosWriter
       segments = SegmentsListHolder.new lang
       constant_segments = SegmentsListHolder.new lang
       terms.each do |term|
+        next if term.values[lang].nil?
         key = Formatter.format(term.keyword, formatter, method(:ios_key_formatter))
         translation = ios_parsing term.values[lang]
         segment = Segment.new(key, translation, lang)

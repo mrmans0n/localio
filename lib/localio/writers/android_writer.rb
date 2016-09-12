@@ -19,6 +19,7 @@ class AndroidWriter
 
       segments = SegmentsListHolder.new lang
       terms.each do |term|
+        next if term.values[lang].nil?
         key = Formatter.format(term.keyword, formatter, method(:android_key_formatter))
         translation = android_parsing term.values[lang]
         segment = Segment.new(key, translation, lang)

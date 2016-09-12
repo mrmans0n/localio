@@ -14,6 +14,7 @@ class RailsWriter
 
       segments = SegmentsListHolder.new lang
       terms.each do |term|
+        next if term.values[lang].nil?
         key = Formatter.format(term.keyword, formatter, method(:rails_key_formatter))
         translation = term.values[lang]
         segment = Segment.new(key, translation, lang)
