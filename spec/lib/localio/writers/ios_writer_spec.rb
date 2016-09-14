@@ -15,4 +15,9 @@ RSpec.describe IosWriter do
     string = "Hello, <c$1> and welcome to the app!"
     expect(described_class.ios_parsing(string)).to eq "Hello, %1$s and welcome to the app!"
   end
+
+  it "escapes double quotes" do
+    string = 'string with "double" quotes in it'
+    expect(described_class.ios_parsing(string)).to eq 'string with \\"double\\" quotes in it'
+  end
 end
