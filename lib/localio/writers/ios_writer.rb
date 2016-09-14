@@ -46,7 +46,8 @@ class IosWriter
   def self.ios_parsing(term)
     term.gsub(/<s\$(\d)>/, '%\1$@').#<s$1> -> %1$@ for string/object params
          gsub(/<d\$(\d)>/, '%\1$d').#<d$1> -> %1$d for integer params
-         gsub(/<c\$(\d)>/, '%\1$s') #<c$1> -> %1$s for char params
+         gsub(/<c\$(\d)>/, '%\1$s').#<c$1> -> %1$s for char params
+         gsub('"', '\\"')
   end
 
   private
