@@ -17,7 +17,7 @@ class SegmentsListHolder
       temp_h = nested_hash
       nested_keys = term.key.split("_")
       nested_keys.each_with_index do |nested_key, index|
-        break unless temp_h[nested_key].is_a? Hash # This skips the translation segment if segment is not nestable
+        break unless temp_h.is_a? Hash # This skips the translation segment if segment is not nestable
         if index == nested_keys.size - 1
           temp_h[nested_key] = term.translation
         else
