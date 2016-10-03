@@ -17,7 +17,6 @@ class SegmentsListHolder
       temp_h = h
       nested_keys = term.key.split("_")
       nested_keys.each_with_index do |nested_key, index|
-        puts "*" + nested_key
         if index == nested_keys.size - 1
           next if temp_h[nested_key].nil? # This ignores the translation segment if the segment is not nestable
           temp_h[nested_key] = term.translation
