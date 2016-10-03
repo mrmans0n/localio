@@ -1,4 +1,5 @@
 require 'bundler/setup'
+require 'pry'
 Bundler.setup
 
 require 'localio'

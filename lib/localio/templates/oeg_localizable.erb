@@ -1,0 +1,15 @@
+(function() {
+  "use strict";
+
+  /**
+   * Translations
+   *
+   /** @type {Object}
+   */
+
+  // <%= @language %>
+
+  window.I18n.translations.<%= @language %> =
+    <%= @nested_hash.to_json %>
+  ;
+}());
