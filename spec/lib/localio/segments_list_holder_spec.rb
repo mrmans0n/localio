@@ -24,9 +24,9 @@ RSpec.describe SegmentsListHolder do
     end
 
     it "skips an entry if it cannot be nested" do
-      segments = {"kanine_dog" => "hound", "kanine_dog_chihuahua" => "Ulla" }
+      segments = {"kanine" => "hound", "kanine_dog_chihuahua" => "Ulla" }
       populate_segments(segments)
-      expect(segment_list_holder.create_nested_hash).to eq({"kanine"=>{"dog"=>"hound"}})
+      expect(segment_list_holder.create_nested_hash).to eq({"kanine"=>"hound"})
     end
   end
 end
