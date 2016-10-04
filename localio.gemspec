@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
   spec.executables << "localize"
 
   spec.add_development_dependency "rspec"
+  spec.add_development_dependency "pry-rails"
 
   spec.required_ruby_version = ">= 1.9.2"
 
