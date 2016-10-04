@@ -12,19 +12,20 @@ class SegmentsListHolder
   end
 
   def create_nested_hash
-    nested_hash = Hash.new { |h, k| h[k] = Hash.new(&h.default_proc) }
-    self.segments.each do |term|
-      temp_h = nested_hash
-      nested_keys = term.key.split("_")
-      nested_keys.each_with_index do |nested_key, index|
-        break unless temp_h.is_a? Hash # This skips the translation segment if segment is not nestable
-        if index == nested_keys.size - 1
-          temp_h[nested_key] = term.translation
+    result_hash = Hash.new { |h, k| h[k] = Hash.new(&h.default_proc) }
+    segments.each do |segment|
+      pointer = result_hash
+      keys = segment.key.split("_")
+      keys.each_with_index do |key, index|
+        break unless pointer.is_a? Hash # This skips the translation segment if segment is not nestable
+        if index == keys.size - 1
+          pointer[key] = segment.translation
         else
-          temp_h = temp_h[nested_key]
+          pointer = pointer[key]
         end
       end
     end
-    @nested_hash = nested_hash
+    @nested_hash = result_hash
   end
+
 end
