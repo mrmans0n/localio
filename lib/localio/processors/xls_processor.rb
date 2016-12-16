@@ -9,6 +9,8 @@ class XlsProcessor
     path = options[:path]
     raise ArgumentError, ':path attribute is missing from the source, and it is required for xls spreadsheets' if path.nil?
 
+    sheet = options[:sheet] || 0
+
     override_default = nil
     override_default = platform_options[:override_default] unless platform_options.nil? or platform_options[:override_default].nil?
 
@@ -16,9 +18,8 @@ class XlsProcessor
 
     book = Spreadsheet.open path
 
-    # TODO we could pass a :page_index in the options hash and get that worksheet instead, defaulting to zero?
-    worksheet = book.worksheet 0
-    raise 'Unable to retrieve the first worksheet from the spreadsheet. Are there any pages?' if worksheet.nil?
+    worksheet = book.worksheet(sheet)
+    raise "Unable to retrieve the specified worksheet from the spreadsheet. Are there any pages?" if worksheet.nil?
 
     # At this point we have the worksheet, so we want to store all the key / values
     first_valid_row_index = nil
