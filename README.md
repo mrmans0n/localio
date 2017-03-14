@@ -180,7 +180,7 @@ You may specify a `sheet` parameter, otherwise the first sheet will be used.
 Option                      | Description
 ----------------------------|-------------------------------------------------------------------------
 `:path`                     | (Req.) Path for your XLSX file.
-`:sheet`                    | (Optional) Index number (starting with 0) or name of the sheet w/ the data
+`:sheet`                    | (Req.) Index number (starting with 0) or name of the sheet w/ the data
 
 ````ruby
 source :xlsx,
