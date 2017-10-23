@@ -5,7 +5,7 @@ require 'localio/formatter'
 require 'nokogiri'
 
 class AndroidWriter
-  def self.write(languages, terms, path, formatter, options)
+  def self.write(languages, terms, path, filename, formatter, options)
     puts 'Writing Android translations...'
     default_language = options[:default_language]
 
