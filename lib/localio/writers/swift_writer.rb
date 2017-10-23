@@ -12,6 +12,8 @@ class SwiftWriter
     languages.keys.each do |lang|
       output_path = File.join(path, "#{lang}.lproj/")
 
+      output_filename = filename != nil ? filename : 'Localizable.strings'
+
       # We have now to iterate all the terms for the current language, extract them, and store them into a new array
 
       segments = SegmentsListHolder.new lang
@@ -31,7 +33,7 @@ class SwiftWriter
         end
       end
 
-      TemplateHandler.process_template 'ios_localizable.erb', output_path, 'Localizable.strings', segments
+      TemplateHandler.process_template 'ios_localizable.erb', output_path, output_filename, segments
       puts " > #{lang.yellow}"
     end
 
