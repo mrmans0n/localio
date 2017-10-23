@@ -162,27 +162,33 @@ export CLIENT_SECRET="your_client_secret"
 ##### XLS
 
 `source :xls` will use a local XLS file. In the parameter's hash you should specify a `:path`.
+You may specify a `sheet` parameter, otherwise the first sheet will be used.
 
 Option                      | Description
 ----------------------------|-------------------------------------------------------------------------
 `:path`                     | (Req.) Path for your XLS file.
+`:sheet`                    | (Optional) Index number (starting with 0) or name of the sheet w/ the data
 
 ````ruby
 source :xls,
-       :path => 'YourExcelFileWithTranslations.xls'
+       :path => 'YourExcelFileWithTranslations.xls',
+       :sheet => 'Master Translation Data'
 ````
 
 ##### XLSX
 
 `source :xlsx` will use a local XLSX file. In the parameter's hash you should specify a `:path`.
+You may specify a `sheet` parameter, otherwise the first sheet will be used.
 
 Option                      | Description
 ----------------------------|-------------------------------------------------------------------------
 `:path`                     | (Req.) Path for your XLSX file.
+`:sheet`                    | (Req.) Index number (starting with 0) or name of the sheet w/ the data
 
 ````ruby
 source :xlsx,
-       :path => 'YourExcelFileWithTranslations.xlsx'
+       :path => 'YourExcelFileWithTranslations.xlsx',
+       :sheet => 'Master Translation Data'
 ````
 
 ##### CSV

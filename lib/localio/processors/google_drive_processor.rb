@@ -43,7 +43,12 @@ class GoogleDriveProcessor
 
       access_token = nil
 
-      if config.has? :refresh_token
+      if options.has_key?(:client_token)
+        puts 'Refreshing auth token...'
+        auth.refresh_token = options[:client_token]
+        auth.refresh!
+        access_token = auth.access_token
+      elsif config.has? :refresh_token
         puts 'Refreshing auth token...'
         auth.refresh_token = config.get :refresh_token
         auth.refresh!
@@ -56,9 +61,12 @@ class GoogleDriveProcessor
         access_token = auth.access_token
       end
 
+    if !options.has_key?(:client_token)
+      puts 'Store auth data...'
       config.store :refresh_token, auth.refresh_token
       config.store :access_token, auth.access_token
       config.persist
+    end
 
       # Creates a session
       session = GoogleDrive.login_with_oauth(access_token)
