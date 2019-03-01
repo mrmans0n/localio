@@ -3,6 +3,7 @@ require 'localio/writers/ios_writer'
 require 'localio/writers/swift_writer'
 require 'localio/writers/json_writer'
 require 'localio/writers/rails_writer'
+require 'localio/writers/rails_nested_writer'
 require 'localio/writers/java_properties_writer'
 require 'localio/writers/resx_writer'
 
@@ -19,6 +20,8 @@ module LocalizableWriter
         JsonWriter.write languages, terms, path, formatter, options
       when :rails
         RailsWriter.write languages, terms, path, formatter, options
+      when :rails_nested
+        RailsNestedWriter.write languages, terms, path, formatter, options
       when :java_properties
         JavaPropertiesWriter.write languages, terms, path, formatter, options
       when :resx
