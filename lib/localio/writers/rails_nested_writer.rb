@@ -12,6 +12,7 @@ class RailsNestedWriter
 
     @nesting_separator = options[:separator] || DEFAULT_SEPARATOR
     @key_formatter = formatter
+    prepare_commented_terms!(terms)
 
     languages.keys.each do |lang|
       @lang = lang
@@ -52,9 +53,13 @@ class RailsNestedWriter
   end
 
   def self.add_segment(key, translation, segments)
-    k = Formatter.format(key, @key_formatter, method(:rails_key_formatter))
+    k = Formatter.format(key, @key_formatter, method(:rails_key_formatter)) unless key.nil?
     segment = Segment.new(k, translation, @lang)
     segments << segment
     segment
+  end
+
+  def self.prepare_commented_terms!(terms)
+    terms.select(&:is_comment?).each_with_index{ |t, index| t.keyword = t.keyword + index.to_s }
   end
 end
