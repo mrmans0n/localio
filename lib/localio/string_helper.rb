@@ -27,6 +27,10 @@ class String
         downcase
   end
 
+  def escape
+    self.dump[1..-2]
+  end
+
   def strip_tag
     self.gsub(/^[\[][a-z][\]]/, '')
   end
@@ -34,7 +38,7 @@ class String
   def space_to_underscore
     self.gsub(' ', '_')
   end
-  
+
   def replace_escaped
     self.gsub("`+", "+").gsub("`=","=").gsub("\\+", "+").gsub("\\=","=")
   end
