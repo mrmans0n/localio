@@ -20,7 +20,7 @@ class RailsNestedWriter
       @segments = segments_holder.segments
       prepare_segments!(terms)
 
-      TemplateHandler.process_template 'rails_localizable.erb', path, "#{lang}.yml", segments_holder
+      TemplateHandler.process_template 'rails_nested_localizable.erb', path, "#{lang}.yml", segments_holder
       puts " > #{lang.yellow}"
     end
   end
