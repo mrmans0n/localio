@@ -10,66 +10,57 @@ class GoogleDriveProcessor
     raise ArgumentError, ':spreadsheet required for Google Drive source!' if spreadsheet.nil?
 
     # Deprecate :login & :password
-    login = options[:login]
-    raise ArgumentError, ':login is deprecated. You should use :client_id and :client_secret for secure OAuth2 authentication.' unless login.nil?
-    password = options[:password]
-    raise ArgumentError, ':password is deprecated. You should use :client_id and :client_secret for secure OAuth2 authentication.' unless password.nil?
+    unless options.slice(:login, :password).empty?
+      raise ArgumentError, 'login and password are deprecated. Use client_id and client_secret options'
+    end
 
     # New authentication way
     client_id = options[:client_id]
     client_secret = options[:client_secret]
 
     # We need client_id / client_secret
-    raise ArgumentError, ':client_id required for Google Drive. Check how to get it here: https://developers.google.com/drive/web/auth/web-server' if client_id.nil?
-    raise ArgumentError, ':client_secret required for Google Drive. Check how to get it here: https://developers.google.com/drive/web/auth/web-server' if client_secret.nil?
+    if [client_id, client_secret].any?(&:nil?)
+      raise ArgumentError, """
+        client_id and client_secret required for Google Drive.
+        Check how to get it here: https://developers.google.com/drive/web/auth/web-server
+      """
+    end
 
-    override_default = nil
-    override_default = platform_options[:override_default] unless platform_options.nil? or platform_options[:override_default].nil?
+    override_default = platform_options[:override_default] unless platform_options.nil? || platform_options[:override_default].nil?
 
     # Log in and get spreadsheet
     puts 'Logging in to Google Drive...'
     begin
-      client = Google::APIClient.new application_name: 'Localio', application_version: Localio::VERSION
-      auth = client.authorization
-      auth.client_id = client_id
-      auth.client_secret = client_secret
-      auth.scope =
-          "https://docs.google.com/feeds/" +
-              "https://www.googleapis.com/auth/drive " +
-              "https://spreadsheets.google.com/feeds/"
-      auth.redirect_uri = "urn:ietf:wg:oauth:2.0:oob"
+      credentials = Google::Auth::UserRefreshCredentials.new(
+        client_id: client_id,
+        client_secret: client_secret,
+        scope: ["https://www.googleapis.com/auth/drive", "https://spreadsheets.google.com/feeds/"],
+        redirect_uri: "urn:ietf:wg:oauth:2.0:oob",
+        additional_parameters: { "access_type" => "offline" }
+      )
 
-      config = ConfigStore.new
+      cred_storage = ConfigStore.new
 
-      access_token = nil
-
-      if options.has_key?(:client_token)
+      if cred_storage.has?(:refresh_token)
         puts 'Refreshing auth token...'
-        auth.refresh_token = options[:client_token]
-        auth.refresh!
-        access_token = auth.access_token
-      elsif config.has? :refresh_token
-        puts 'Refreshing auth token...'
-        auth.refresh_token = config.get :refresh_token
-        auth.refresh!
-        access_token = auth.access_token
+        credentials.refresh_token = cred_storage.get(:refresh_token)
+        credentials.fetch_access_token!
+        # access_token = credentials.access_token
       else
-        puts "1. Open this page in your browser:\n#{auth.authorization_uri}\n\n"
+        puts "1. Open this page in your browser:\n#{credentials.authorization_uri}\n\n"
         puts "2. Enter the authorization code shown in the page: "
-        auth.code = $stdin.gets.chomp
-        auth.fetch_access_token!
-        access_token = auth.access_token
+        credentials.code = $stdin.gets.chomp
+        credentials.fetch_access_token!
+        # access_token = credentials.access_token
       end
 
-    if !options.has_key?(:client_token)
-      puts 'Store auth data...'
-      config.store :refresh_token, auth.refresh_token
-      config.store :access_token, auth.access_token
-      config.persist
-    end
+      puts 'Store auth data for the future usage...'
+      cred_storage.store :refresh_token, credentials.refresh_token
+      cred_storage.store :access_token, credentials.access_token
+      cred_storage.persist
 
       # Creates a session
-      session = GoogleDrive.login_with_oauth(access_token)
+      session = GoogleDrive::Session.from_credentials(credentials)
     rescue => e
       puts "Error: #{e.inspect}"
       raise 'Couldn\'t access Google Drive. Check your values for :client_id and :client_secret, and delete :access_token if present (you might need to refresh its value so please remove it)'
