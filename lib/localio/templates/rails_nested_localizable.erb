@@ -1,0 +1,32 @@
+<%
+  def executable(term, nesting=0, lines=[])
+    default_indent = "  ".freeze
+    indent = default_indent * nesting + default_indent
+
+    if term.with_nesting?
+      lines << "#{indent}#{term.key}:"
+
+      term.nested.each do |_term|
+        executable(_term, nesting + 1, lines)
+      end
+    else
+      lines << "#{indent}#{term.key}: \"#{term.translation.escape}\""
+    end
+
+    return lines.join("\n")
+  end
+%>
+
+# Localizable created with localio. DO NOT MODIFY.
+#
+# Language: <%= @language %>
+
+<%= @language %>:
+<%
+  @segments.each do |term|
+    if term.is_comment? %>
+# <%= term.translation %>
+
+<%  else %><%= executable(term) %>
+<%  end
+  end %>
