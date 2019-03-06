@@ -7,6 +7,7 @@ class GoogleDriveProcessor
   def self.load_localizables(platform_options, options)
     # Parameter validations
     spreadsheet = options[:spreadsheet]
+    sheet = options[:sheet]
     raise ArgumentError, ':spreadsheet required for Google Drive source!' if spreadsheet.nil?
 
     # Deprecate :login & :password
@@ -81,9 +82,8 @@ class GoogleDriveProcessor
         abort "More than one match found (#{matching_spreadsheets.join ', '}). You have to be more specific!"
     end
 
-
-    # TODO we could pass a :page_index in the options hash and get that worksheet instead, defaulting to zero?
-    worksheet = matching_spreadsheets[0].worksheets[0]
+    worksheets = matching_spreadsheets[0].worksheets
+    worksheet  = !sheet.nil? ? (sheet.is_a?(Integer) ? worksheets[sheet] : worksheets.find{ |w| w.title == sheet }) : worksheets[0]
     raise 'Unable to retrieve the first worksheet from the spreadsheet. Are there any pages?' if worksheet.nil?
 
     # At this point we have the worksheet, so we want to store all the key / values
