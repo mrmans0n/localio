@@ -114,8 +114,17 @@ class GoogleDriveProcessor
     for column in 2..worksheet.max_cols
       col_all = worksheet[first_valid_row_index, column]
       col_all.each_line(' ') do |col_text|
-        default_language = col_text.downcase.gsub('*', '') if col_text.include? '*'
-        languages.store col_text.downcase.gsub('*', ''), column unless col_text.to_s == ''
+        default_language = col_text.gsub('*', '') if col_text.include? '*'
+        lang = col_text.gsub('*', '')
+
+        unless platform_options[:avoid_lang_downcase]
+          default_language = default_language.downcase
+          lang = lang.downcase
+         end
+
+        unless col_text.to_s == ''
+          languages.store lang, column
+        end
       end
     end
 

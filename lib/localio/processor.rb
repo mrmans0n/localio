@@ -5,6 +5,7 @@ require 'localio/processors/csv_processor'
 
 module Processor
   def self.load_localizables(platform_options, service, options)
+    puts "Service: #{service}"
     case service
       when :google_drive
         GoogleDriveProcessor.load_localizables platform_options, options
