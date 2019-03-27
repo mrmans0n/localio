@@ -63,6 +63,7 @@ Option                      | Description                                       
 `formatting`                | The formatter that will be used for key processing.              | `smart`
 `except`                    | Filter applied to the keys, process all except the matches.      | `nil`
 `only`                      | Filter applied to the keys, only process the matches.            | `nil`
+`placeholder`               | Define specific placeholders to replace this in your localize strings.            | `nil`
 
 #### Supported platforms
 
@@ -119,6 +120,7 @@ Option                      | Description
 `:password`                 | **DEPRECATED** This is deprecated starting version 0.1.0. Please remove it.
 `:client_id`                | (Req.) Your Google CLIENT ID.
 `:client_secret`            | (Req.) Your Google CLIENT SECRET.
+`:client_token`             | (Opt.) Your Google CLIENT TOKEN.
 
 Please take into account that from version 0.1.0 of Localio onwards we are using **Google OAuth2 authentication**, as the previous one with login/password has been deprecated by Google and cannot be access anymore starting April 20th 2015.
 
@@ -140,11 +142,20 @@ source :google_drive,
        :client_secret => 'asdFFGGhjKlzxcvbnm'
 ```
 
+To use the `:client_token` option your Locfile `source`looks like this:
+```ruby
+source :google_drive,
+       :spreadsheet => '[Localizables] My Project',
+       :client_id => 'XXXXXXXXX-XXXXXXXX.apps.googleusercontent.com',
+       :client_secret => 'asdFFGGhjKlzxcvbnm',
+       :client_token => 'xxxxxxxxxxxx'
+```
+
 Then, the first time you run it, you will be prompted to follow some instructions. You will be asked to open a website, where you will be prompted for permission to use the Drive API. After you allow it, you will be given an authorization code, which you will have to paste in your terminal screen when prompted.
 
-**NOTE** A hidden file, called .localio.yml, will be created in your Locfile directory. You should **add that file to your ignored resources** in your repository, aka the **.gitignore** file.
+**NOTE** A hidden file, called .localio.yml, will be created in your Locfile directory. You should **add that file to your ignored resources** in your repository, aka the **.gitignore** file. If you use the :client_token option, you doesn't need the localio.yml file.
 
-**NOTE** As it is a very bad practice to put your sensitive information in a plain file, specially when you would want to upload your project to some repository, it is **VERY RECOMMENDED** that you use environment variables in here. Ruby syntax is accepted so you can use `ENV['CLIENT_SECRET']` and `ENV['CLIENT_ID']` in here.
+**NOTE** As it is a very bad practice to put your sensitive information in a plain file, specially when you would want to upload your project to some repository, it is **VERY RECOMMENDED** that you use environment variables in here. Ruby syntax is accepted so you can use `ENV['CLIENT_SECRET']` and `ENV['CLIENT_ID']` in here. Also you can use `ENV['CLIENT_TOKEN']`.
 
 For example, this.
 
@@ -152,7 +163,8 @@ For example, this.
 source :google_drive,
        :spreadsheet => '[Localizables] My Project!',
        :client_id => ENV['CLIENT_ID'],
-       :client_secret => ENV['CLIENT_SECRET']
+       :client_secret => ENV['CLIENT_SECRET'],
+       :client_token => ENV['CLIENT_TOKEN']
 ````
 
 And in your .bashrc (or .bash_profile, .zshrc or whatever), you could export those environment variables like this:
@@ -160,6 +172,7 @@ And in your .bashrc (or .bash_profile, .zshrc or whatever), you could export tho
 ````ruby
 export CLIENT_ID="your_client_id"
 export CLIENT_SECRET="your_client_secret"
+export CLIENT_TOKEN="your_client_token"
 ````
 
 ##### XLS
@@ -258,6 +271,16 @@ We can filter inversely too, with the command `only`. For example, if we only wa
 ````ruby
 only :keys => '[\[][a][\]]'
 ````
+
+#### Specific placeholders
+
+Define specific placeholders (as dictionary) to replace this in your localize strings.
+
+**NOTE** This option is available only for the platform `:android`, `:ios` and `:swift`.
+
+```ruby
+placeholder :dict => {'{String}' => '%@', '{Number}' => '%i'}
+```
 
 #### Overriding default language
 

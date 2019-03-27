@@ -7,14 +7,14 @@ require 'localio/writers/java_properties_writer'
 require 'localio/writers/resx_writer'
 
 module LocalizableWriter
-  def self.write(platform, languages, terms, path, formatter, options)
+  def self.write(platform, languages, terms, path, formatter, options, placeholders)
     case platform
       when :android
-        AndroidWriter.write languages, terms, path, formatter, options
+        AndroidWriter.write languages, terms, path, formatter, options, placeholders
       when :ios
-        IosWriter.write languages, terms, path, formatter, options
+        IosWriter.write languages, terms, path, formatter, options, placeholders
       when :swift
-        SwiftWriter.write languages, terms, path, formatter, options
+        SwiftWriter.write languages, terms, path, formatter, options, placeholders
       when :json
         JsonWriter.write languages, terms, path, formatter, options
       when :rails

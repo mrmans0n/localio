@@ -55,7 +55,8 @@ module Localio
                             @localizables[:segments],
                             @configuration.output_path,
                             @configuration.formatting,
-                            @configuration.platform_options
+                            @configuration.platform_options,
+                            @configuration.placeholders
     puts 'Done!'.green
   end
 
