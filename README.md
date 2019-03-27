@@ -114,6 +114,7 @@ You will have to provide some required parameters too. Here is a list of all the
 Option                      | Description
 ----------------------------|-------------------------------------------------------------------------
 `:spreadsheet`              | (Req.) Title of the spreadsheet you want to use. Can be a partial match.
+`:sheet`                    | (Req.) Index number (starting with 0) or name of the sheet w/ the data
 `:login`                    | **DEPRECATED** This is deprecated starting version 0.1.0. Please remove it.
 `:password`                 | **DEPRECATED** This is deprecated starting version 0.1.0. Please remove it.
 `:client_id`                | (Req.) Your Google CLIENT ID.
