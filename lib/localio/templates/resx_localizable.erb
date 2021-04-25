@@ -122,14 +122,26 @@
     <comment>Controls the Language and ensures that the font for all elements in the RootFrame aligns with the app's language. Set to the language code of this resource file's language.</comment>
   </data>
 <%
+node_keys = []
 @segments.each do |term|
      if term.is_comment? %>
   <!-- <%= term.translation %> -->
-<% else %>  <data name="<%= term.key %>" xml:space="preserve">
+<% else 
+ if term.key == '[init-node]' or term.key == '[end-node]'
+      node_keys << term.translation if term.key == '[init-node]'
+      node_keys.pop if term.key == '[end-node]'
+    else
+      if node_keys.length() > 0
+        key_join = node_keys.join().capitalize+term.key.capitalize
+      else
+        key_join = term.key
+      end
+%>  <data name="<%= key_join %>" xml:space="preserve">
     <value><![CDATA[<%= term.translation %>]]></value>
     <comment/>
   </data>
-<%   end
+<%  end
+   end
   end
 %>
 

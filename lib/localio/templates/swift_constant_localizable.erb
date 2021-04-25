@@ -8,6 +8,19 @@ Created by localio
 
 import Foundation
 
-<% @segments.each do |term| %>
-let <%= term.key %>: String = { return NSLocalizedString("<%= term.translation %>", comment: "") }()<%
+<% 
+node_keys = []
+@segments.each do |term| 
+    if term.key == '[init-node]' or term.key == '[end-node]'
+        node_keys << term.translation if term.key == '[init-node]'
+        node_keys.pop if term.key == '[end-node]'
+    else
+        if node_keys.length() >0
+            key_join = node_keys.join("_").capitalize+"_"+term.key.downcase
+        else
+            key_join = term.key
+        end
+%>
+let kLocale<%= key_join %>: String = { return NSLocalizedString("_<%= key_join %>", comment: "") }()<%
+    end
 end %>
