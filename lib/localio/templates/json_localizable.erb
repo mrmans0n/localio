@@ -4,12 +4,13 @@
         "language": "<%= @language %>"
     },
     "translations": {
-<%   @segments.each do |term|
+<%   @segments.each.with_index do |term, index|
          term_value = term.translation
          term_key = term.key
-
-         term_key = '___comment___' if term.is_comment?
-%>      "<%= term_key %>": "<%= term_value %>"<% unless term == @segments.last %>,<% end %>
-<%     end %>
+         count_to_string = index.to_s
+         term_key = '___comment_'+count_to_string+'___' if term.is_comment?
+        if term.key == '[init-node]'%>  
+    "<%= term_value %>": {<% elsif term.key == '[end-node]'%>}<% unless term == @segments.last %>,<% end %><% else %>
+    "<%= term_key %>": "<%= term_value %>"<% unless term == @segments.last %>,<% end %><% end end %>
     }
 }

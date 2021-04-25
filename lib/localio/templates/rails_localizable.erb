@@ -4,10 +4,22 @@
 
 <%= @language %>:
 <%
+node_keys = []
 @segments.each do |term|
-     if term.is_comment? %>
+    if term.is_comment? %>
 # <%= term.translation %>
-<% else %>  <%= term.key %>: "<%= term.translation %>"
-<%   end
+<% else 
+    if term.key == '[init-node]' or term.key == '[end-node]'
+      node_keys << term.translation if term.key == '[init-node]'
+      node_keys.pop if term.key == '[end-node]'
+    else
+      if node_keys.length() > 0
+        key_join = node_keys.join("_")+"_"+term.key
+      else
+        key_join = term.key
+      end
+%>  <%= key_join %>: "<%= term.translation %>"
+<%  end    
   end
+end
 %>
