@@ -1,0 +1,134 @@
+PATH
+  remote: .
+  specs:
+    localio (0.1.7)
+      google_drive (~> 3.0)
+      nokogiri (~> 1.16)
+      simple_xlsx_reader (~> 2.0)
+      spreadsheet (~> 1.3)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    addressable (2.8.8)
+      public_suffix (>= 2.0.2, < 8.0)
+    base64 (0.3.0)
+    bigdecimal (4.0.1)
+    declarative (0.0.20)
+    diff-lcs (1.6.2)
+    faraday (1.10.5)
+      faraday-em_http (~> 1.0)
+      faraday-em_synchrony (~> 1.0)
+      faraday-excon (~> 1.1)
+      faraday-httpclient (~> 1.0)
+      faraday-multipart (~> 1.0)
+      faraday-net_http (~> 1.0)
+      faraday-net_http_persistent (~> 1.0)
+      faraday-patron (~> 1.0)
+      faraday-rack (~> 1.0)
+      faraday-retry (~> 1.0)
+      ruby2_keywords (>= 0.0.4)
+    faraday-em_http (1.0.0)
+    faraday-em_synchrony (1.0.1)
+    faraday-excon (1.1.0)
+    faraday-httpclient (1.0.1)
+    faraday-multipart (1.2.0)
+      multipart-post (~> 2.0)
+    faraday-net_http (1.0.2)
+    faraday-net_http_persistent (1.2.0)
+    faraday-patron (1.0.0)
+    faraday-rack (1.0.0)
+    faraday-retry (1.0.3)
+    google-apis-core (0.11.3)
+      addressable (~> 2.5, >= 2.5.1)
+      googleauth (>= 0.16.2, < 2.a)
+      httpclient (>= 2.8.1, < 3.a)
+      mini_mime (~> 1.0)
+      representable (~> 3.0)
+      retriable (>= 2.0, < 4.a)
+      rexml
+    google-apis-drive_v3 (0.46.0)
+      google-apis-core (>= 0.11.0, < 2.a)
+    google-apis-sheets_v4 (0.26.0)
+      google-apis-core (>= 0.11.0, < 2.a)
+    google_drive (3.0.7)
+      google-apis-drive_v3 (>= 0.5.0, < 1.0.0)
+      google-apis-sheets_v4 (>= 0.4.0, < 1.0.0)
+      googleauth (>= 0.5.0, < 1.0.0)
+      nokogiri (>= 1.5.3, < 2.0.0)
+    googleauth (0.17.1)
+      faraday (>= 0.17.3, < 2.0)
+      jwt (>= 1.4, < 3.0)
+      memoist (~> 0.16)
+      multi_json (~> 1.11)
+      os (>= 0.9, < 2.0)
+      signet (~> 0.15)
+    httpclient (2.9.0)
+      mutex_m
+    jwt (2.10.2)
+      base64
+    logger (1.7.0)
+    memoist (0.16.2)
+    mini_mime (1.1.5)
+    mini_portile2 (2.8.9)
+    multi_json (1.19.1)
+    multipart-post (2.4.1)
+    mutex_m (0.3.0)
+    nokogiri (1.19.1)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
+    nokogiri (1.19.1-arm64-darwin)
+      racc (~> 1.4)
+    os (1.1.4)
+    public_suffix (7.0.2)
+    racc (1.8.1)
+    rake (13.3.1)
+    representable (3.2.0)
+      declarative (< 0.1.0)
+      trailblazer-option (>= 0.1.1, < 0.2.0)
+      uber (< 0.2.0)
+    retriable (3.2.1)
+    rexml (3.4.4)
+    rspec (3.13.2)
+      rspec-core (~> 3.13.0)
+      rspec-expectations (~> 3.13.0)
+      rspec-mocks (~> 3.13.0)
+    rspec-core (3.13.6)
+      rspec-support (~> 3.13.0)
+    rspec-expectations (3.13.5)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-mocks (3.13.7)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-support (3.13.7)
+    ruby-ole (1.2.13.1)
+    ruby2_keywords (0.0.5)
+    rubyzip (3.2.2)
+    signet (0.21.0)
+      addressable (~> 2.8)
+      faraday (>= 0.17.5, < 3.a)
+      jwt (>= 1.5, < 4.0)
+      multi_json (~> 1.10)
+    simple_xlsx_reader (2.0.1)
+      nokogiri
+      rubyzip
+    spreadsheet (1.3.4)
+      bigdecimal
+      logger
+      ruby-ole
+    trailblazer-option (0.1.2)
+    uber (0.1.0)
+
+PLATFORMS
+  arm64-darwin
+  ruby
+
+DEPENDENCIES
+  bundler (~> 2.0)
+  localio!
+  rake
+  rspec (~> 3.0)
+
+BUNDLED WITH
+   2.5.22
