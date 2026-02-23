@@ -73,6 +73,7 @@ Option                      | Description                                       
 * `:json` for an easy JSON format for localizables. The `output_path` is yours to decide :)
 * `:java_properties` for .properties files used mainly in Java. Files named language_(lang).properties will be generated in `output_path`'s root directory.
 * `:resx` for .resx files used by .NET projects, e.g. Windows Forms, Windows Phone or Xamarin.
+* `:twine` for [Twine](https://github.com/scelis/twine)-compatible `strings.txt` files containing all languages in a single file. The `output_path` is the directory where the file will be written.
 
 #### Extra platform parameters
 
@@ -101,6 +102,14 @@ The default resource file name is `Resources.resx`. We can set a different base 
 platform :resx, :resource_file => "WebResources" 
 
 # ... rest of your Locfile ...
+````
+
+##### Twine - :twine
+
+By default the output file is named `strings.txt`. Use `:output_file` to override:
+
+````ruby
+platform :twine, :output_file => 'MyApp.strings'
 ````
 
 #### Supported sources
