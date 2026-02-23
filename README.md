@@ -51,7 +51,7 @@ source :xlsx,
        :path => 'my_translations.xlsx'
 ````
 
-This would connect localio to your Google Drive and process the spreadsheet with title "[Localizables] My Project!".
+This would read from `my_translations.xlsx` and write iOS localizable files to `my_output_path/`.
 
 The list of possible commands is this.
 
@@ -109,58 +109,51 @@ platform :resx, :resource_file => "WebResources"
 
 `source :google_drive` will get the translation strings from Google Drive.
 
-You will have to provide some required parameters too. Here is a list of all the parameters.
+Two authentication methods are supported: **OAuth2** (for personal accounts) and **service accounts** (for automated/CI use).
 
 Option                      | Description
 ----------------------------|-------------------------------------------------------------------------
 `:spreadsheet`              | (Req.) Title of the spreadsheet you want to use. Can be a partial match.
 `:sheet`                    | (Req.) Index number (starting with 0) or name of the sheet w/ the data
-`:login`                    | **DEPRECATED** This is deprecated starting version 0.1.0. Please remove it.
-`:password`                 | **DEPRECATED** This is deprecated starting version 0.1.0. Please remove it.
-`:client_id`                | (Req.) Your Google CLIENT ID.
-`:client_secret`            | (Req.) Your Google CLIENT SECRET.
+`:client_id`                | Your Google OAuth2 Client ID. Required unless using `:client_token`.
+`:client_secret`            | Your Google OAuth2 Client Secret. Required unless using `:client_token`.
+`:client_token`             | Path to a service account JSON key file. Alternative to OAuth2.
 
-Please take into account that from version 0.1.0 of Localio onwards we are using **Google OAuth2 authentication**, as the previous one with login/password has been deprecated by Google and cannot be access anymore starting April 20th 2015.
+###### Option A: OAuth2 (personal account)
 
-Setting it up is a bit of a pain, although it is only required the first time and can be shared by all your projects:
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/), create a project and enable the **Google Drive API**.
+2. Under **APIs & Services → Credentials**, create an **OAuth client ID**. Choose **Desktop app** as the application type.
+3. Download or copy your **Client ID** and **Client Secret**.
 
-1. You have to create a new project in Google Developers Console for using Drive API. You can do that [here](https://console.developers.google.com/flows/enableapi?apiid=drive).
-2. After it is created you will be redirected to the credentials section (if not, just select under APIs and authentication in the sidebar the Credentials section), where you will click in the button labeled **Create new client ID**.
-3. Select the third option, the one that says something like **Installed Application**.
-4. Fill the form with whatever you want. For example, you could put Localio as the product name (the only thing required there).
-5. Select again the third option, **Installed Application**, and in the platform selector select the last one, **Others**.
-6. You will have all the necessary information in the next screen: Client ID and Client Secret.
-
-After doing all this, you are ready to add `:client_id` and `:client_secret` fields to your Locfile `source`. It will look somewhat like this at this stage:
+Add them to your Locfile:
 
 ```ruby
 source :google_drive,
        :spreadsheet => '[Localizables] My Project',
-       :client_id => 'XXXXXXXXX-XXXXXXXX.apps.googleusercontent.com',
-       :client_secret => 'asdFFGGhjKlzxcvbnm'
+       :client_id => ENV['GOOGLE_CLIENT_ID'],
+       :client_secret => ENV['GOOGLE_CLIENT_SECRET']
 ```
 
-Then, the first time you run it, you will be prompted to follow some instructions. You will be asked to open a website, where you will be prompted for permission to use the Drive API. After you allow it, you will be given an authorization code, which you will have to paste in your terminal screen when prompted.
+The first time you run `localize`, you will be prompted to open a URL in your browser, grant access to your Drive, and paste the authorization code back into the terminal. After that, the refresh token is saved to `~/.localio_gdrive_config.json` and subsequent runs authenticate automatically.
 
-**NOTE** A hidden file, called .localio.yml, will be created in your Locfile directory. You should **add that file to your ignored resources** in your repository, aka the **.gitignore** file.
+**NOTE** As it is a very bad practice to put your sensitive information in a plain file, it is **strongly recommended** to use environment variables. Export them from your shell profile (`.zshrc`, `.bashrc`, etc.):
 
-**NOTE** As it is a very bad practice to put your sensitive information in a plain file, specially when you would want to upload your project to some repository, it is **VERY RECOMMENDED** that you use environment variables in here. Ruby syntax is accepted so you can use `ENV['CLIENT_SECRET']` and `ENV['CLIENT_ID']` in here.
+```bash
+export GOOGLE_CLIENT_ID="your_client_id"
+export GOOGLE_CLIENT_SECRET="your_client_secret"
+```
 
-For example, this.
+###### Option B: Service account (automated/CI use)
 
-````ruby
+1. In the [Google Cloud Console](https://console.cloud.google.com/), create a **Service Account** under **APIs & Services → Credentials**.
+2. Download the JSON key file.
+3. Share the target spreadsheet with the service account's email address (found in the JSON file under `client_email`).
+
+```ruby
 source :google_drive,
-       :spreadsheet => '[Localizables] My Project!',
-       :client_id => ENV['CLIENT_ID'],
-       :client_secret => ENV['CLIENT_SECRET']
-````
-
-And in your .bashrc (or .bash_profile, .zshrc or whatever), you could export those environment variables like this:
-
-````ruby
-export CLIENT_ID="your_client_id"
-export CLIENT_SECRET="your_client_secret"
-````
+       :spreadsheet => '[Localizables] My Project',
+       :client_token => 'path/to/service_account_key.json'
+```
 
 ##### XLS
 
