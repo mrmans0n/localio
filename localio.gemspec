@@ -19,11 +19,11 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 3.2"
 
   spec.add_development_dependency "rspec",   "~> 3.0"
-  spec.add_development_dependency "rake"
+  spec.add_development_dependency "rake",    "~> 13.0"
 
   spec.add_dependency "google_drive",        "~> 3.0"
   spec.add_dependency "spreadsheet",         "~> 1.3"
   spec.add_dependency "simple_xlsx_reader",  "~> 2.0"
   spec.add_dependency "nokogiri",            "~> 1.16"
-  spec.add_dependency "csv",                  ">= 3.2"
+  spec.add_dependency "csv",                 "~> 3.2"
 end
