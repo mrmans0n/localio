@@ -1,0 +1,11 @@
+Title Row,,,
+[key],*en,es,fr
+[comment],Section General,Section General,Section General
+app_name,My App,Mi Aplicación,Mon Application
+greeting,Hello %@ world,Hola %@ mundo,Bonjour %@ monde
+dots_test,Wait...,Espera...,Attendez...
+ampersand_test,Tom & Jerry,Tom & Jerry,Tom & Jerry
+[init-node],module,module,module
+nested_key,Module Key,Clave Módulo,Clé Module
+[end-node],end,end,end
+[end],,,
