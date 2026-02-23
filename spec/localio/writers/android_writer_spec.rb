@@ -1,17 +1,3 @@
-# nokogiri's native extension is compiled for x86_64 and fails to dlopen on
-# this arm64 host.  We stub it out by pre-populating $LOADED_FEATURES so that
-# every subsequent `require 'nokogiri'` (including the one inside
-# android_writer.rb) is treated as already loaded.
-
-begin
-  _nok_base = '/Volumes/Workspace/localio/.worktrees/modernization/' \
-              'vendor/bundle/ruby/2.6.0/gems/nokogiri-1.13.10-x86_64-darwin/lib'
-  [
-    "#{_nok_base}/nokogiri.rb",
-    "#{_nok_base}/nokogiri/extension.rb",
-  ].each { |f| $LOADED_FEATURES << f unless $LOADED_FEATURES.include?(f) }
-end
-
 require 'localio/string_helper'
 require 'localio/term'
 require 'localio/segment'

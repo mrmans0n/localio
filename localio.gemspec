@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "google_drive",        "~> 3.0"
   spec.add_dependency "spreadsheet",         "~> 1.3"
-  spec.add_dependency "simple_xlsx_reader",  "~> 2.0"  # 3.x breaks the row API; revisit after Task 19
+  spec.add_dependency "simple_xlsx_reader",  "~> 2.0"
   spec.add_dependency "nokogiri",            "~> 1.16"
   spec.add_dependency "csv",                  ">= 3.2"
 end

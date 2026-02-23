@@ -1,13 +1,3 @@
-# Stub out nokogiri (vendored x86_64 build cannot dlopen on this arm64 host)
-begin
-  _nok_base = '/Volumes/Workspace/localio/.worktrees/modernization/' \
-              'vendor/bundle/ruby/2.6.0/gems/nokogiri-1.13.10-x86_64-darwin/lib'
-  [
-    "#{_nok_base}/nokogiri.rb",
-    "#{_nok_base}/nokogiri/extension.rb",
-  ].each { |f| $LOADED_FEATURES << f unless $LOADED_FEATURES.include?(f) }
-end
-
 require 'json'
 require 'localio/string_helper'
 require 'localio/term'
