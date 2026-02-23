@@ -19,3 +19,4 @@ tmp
 .idea/
 testing/
 .vscode/launch.json
+.worktrees/
