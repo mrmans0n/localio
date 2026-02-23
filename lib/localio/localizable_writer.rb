@@ -5,6 +5,7 @@ require 'localio/writers/json_writer'
 require 'localio/writers/rails_writer'
 require 'localio/writers/java_properties_writer'
 require 'localio/writers/resx_writer'
+require 'localio/writers/twine_writer'
 
 module LocalizableWriter
   def self.write(platform, languages, terms, path, formatter, options)
@@ -23,8 +24,10 @@ module LocalizableWriter
         JavaPropertiesWriter.write languages, terms, path, formatter, options
       when :resx
         ResXWriter.write languages, terms, path, formatter, options
+      when :twine
+        TwineWriter.write languages, terms, path, formatter, options
       else
-        raise ArgumentError, 'Platform not supported! Current possibilities are :android, :ios, :json, :rails, :java_properties, :resx'
+        raise ArgumentError, 'Platform not supported! Current possibilities are :android, :ios, :json, :rails, :java_properties, :resx, :twine'
     end
   end
 end
