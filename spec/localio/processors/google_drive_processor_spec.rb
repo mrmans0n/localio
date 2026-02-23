@@ -15,8 +15,8 @@ module GoogleDrive
 end
 
 begin
-  _gd_base = '/Volumes/Workspace/localio/.worktrees/modernization/' \
-             'vendor/bundle/ruby/3.3.0/gems/google_drive-3.0.7/lib'
+  _gd_spec  = Gem::Specification.find_by_name('google_drive')
+  _gd_base  = File.join(_gd_spec.gem_dir, 'lib')
   Dir["#{_gd_base}/**/*.rb"].sort.each do |f|
     $LOADED_FEATURES << f unless $LOADED_FEATURES.include?(f)
   end

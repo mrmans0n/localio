@@ -1,10 +1,3 @@
-# Require nokogiri explicitly before simple_xlsx_reader so that the Nokogiri
-# constant is defined regardless of test-suite load order.  Other specs
-# pre-populate $LOADED_FEATURES with nokogiri paths (to prevent loading the
-# old x86_64 build), which would cause simple_xlsx_reader to skip the require
-# and leave Nokogiri undefined.  Loading nokogiri here first, before any stub
-# can interfere, ensures the constant is available.
-require 'nokogiri'
 require 'localio/term'
 require 'localio/string_helper'
 require 'localio/processors/xlsx_processor'
