@@ -1,11 +1,14 @@
 #!/usr/bin/env ruby
-# encoding: UTF-8
-
+require 'optparse'
 require 'localio'
 
-begin
-  Localio.from_cmdline(ARGV)
-rescue => e
-  abort e.message
-end
+OptionParser.new do |opts|
+  opts.banner = 'Usage: localize [Locfile]'
+  opts.on('-v', '--version', 'Show version') do
+    require 'localio/version'
+    puts Localio::VERSION
+    exit
+  end
+end.parse!
 
+Localio.from_cmdline(ARGV)
