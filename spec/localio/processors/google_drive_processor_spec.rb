@@ -1,44 +1,37 @@
 # google_drive transitively loads nokogiri, whose native extension is compiled
 # for x86_64 and fails to dlopen on this arm64 host.  We prevent the real gem
 # files from ever being evaluated by:
-#   1. Defining minimal stub modules for GoogleDrive, Google::APIClient, and
-#      ConfigStore before anything tries to reference them.
+#   1. Defining minimal stub modules for GoogleDrive before anything tries to
+#      reference them.
 #   2. Pre-populating $LOADED_FEATURES with the absolute gem paths so that
 #      every subsequent `require 'google_drive'` (including the one at the top
 #      of google_drive_processor.rb) is treated as already loaded.
 # All runtime calls are intercepted by RSpec doubles.
 
 module GoogleDrive
-  def self.login_with_oauth(_token); end
-end
-
-module Google
-  class APIClient
-    def self.new(**_opts); end
+  module Session
+    def self.from_config(_config, _opts = {}); end
+    def self.from_service_account_key(_path, _scope = nil); end
   end
-end
-
-class ConfigStore
-  def initialize; end
-  def has?(_key); false; end
-  def get(_key); nil; end
-  def store(_key, _val); end
-  def persist; end
 end
 
 begin
   _gd_base  = '/Volumes/Workspace/localio/.worktrees/modernization/' \
-               'vendor/bundle/ruby/2.6.0/gems/google_drive-1.0.6/lib'
-  _nok_base = '/Volumes/Workspace/localio/.worktrees/modernization/' \
-               'vendor/bundle/ruby/2.6.0/gems/nokogiri-1.13.10-x86_64-darwin/lib'
+               'vendor/bundle/ruby/3.3.0/gems/google_drive-3.0.7/lib'
+  _nok_base = Dir['/Volumes/Workspace/localio/.worktrees/modernization/' \
+               'vendor/bundle/ruby/3.3.0/gems/nokogiri-*/lib'].first.to_s
   _gd_files = Dir["#{_gd_base}/**/*.rb"].sort
-  _nok_files = Dir["#{_nok_base}/**/*.rb"].sort
+  _nok_files = _nok_base.empty? ? [] : Dir["#{_nok_base}/**/*.rb"].sort
   (_gd_files + _nok_files).each do |f|
     $LOADED_FEATURES << f unless $LOADED_FEATURES.include?(f)
   end
-  # Top-level require entry points
-  ["#{_gd_base}/google_drive.rb", "#{_nok_base}/nokogiri.rb"].each do |f|
+  ["#{_gd_base}/google_drive.rb"].each do |f|
     $LOADED_FEATURES << f unless $LOADED_FEATURES.include?(f)
+  end
+  unless _nok_base.empty?
+    ["#{_nok_base}/nokogiri.rb"].each do |f|
+      $LOADED_FEATURES << f unless $LOADED_FEATURES.include?(f)
+    end
   end
 end
 
@@ -70,28 +63,15 @@ RSpec.describe GoogleDriveProcessor do
   before do
     allow(spreadsheet_double).to receive(:worksheets).and_return([worksheet])
     allow(session_double).to receive(:spreadsheets).and_return([spreadsheet_double])
-    allow(GoogleDrive).to receive(:login_with_oauth).and_return(session_double)
 
-    auth = double('auth',
-      authorization_uri: 'http://example.com',
-      access_token: 'token',
-      refresh_token: 'refresh'
-    )
-    allow(auth).to receive(:client_id=)
-    allow(auth).to receive(:client_secret=)
-    allow(auth).to receive(:scope=)
-    allow(auth).to receive(:redirect_uri=)
-    allow(auth).to receive(:refresh_token=)
-    allow(auth).to receive(:refresh!)
+    # Mock the google_drive 3.x session creation method used by the processor.
+    # from_config is used for the OAuth2 client_id/client_secret flow.
+    allow(GoogleDrive::Session).to receive(:from_config).and_return(session_double)
 
-    client = double('client', authorization: auth)
-    stub_const('Google::APIClient', double(new: client))
-    stub_const('Localio::VERSION', '0.1.7')
-
-    config = double('config', has?: false, get: nil)
-    allow(config).to receive(:store)
-    allow(config).to receive(:persist)
-    allow(ConfigStore).to receive(:new).and_return(config)
+    # Allow File.file? to return false for the :client_token option in OAuth tests
+    # so the processor takes the from_config path (not the service-account path).
+    allow(File).to receive(:file?).and_call_original
+    allow(File).to receive(:file?).with('token').and_return(false)
   end
 
   let(:options) do

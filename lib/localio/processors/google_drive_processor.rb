@@ -1,6 +1,5 @@
 require 'google_drive'
 require 'localio/term'
-require 'localio/config_store'
 
 class GoogleDriveProcessor
 
@@ -19,9 +18,11 @@ class GoogleDriveProcessor
     client_id = options[:client_id]
     client_secret = options[:client_secret]
 
-    # We need client_id / client_secret
-    raise ArgumentError, ':client_id required for Google Drive. Check how to get it here: https://developers.google.com/drive/web/auth/web-server' if client_id.nil?
-    raise ArgumentError, ':client_secret required for Google Drive. Check how to get it here: https://developers.google.com/drive/web/auth/web-server' if client_secret.nil?
+    # We need client_id / client_secret (unless a service-account key is supplied)
+    unless options[:client_token].is_a?(String) && File.file?(options[:client_token].to_s)
+      raise ArgumentError, ':client_id required for Google Drive. Check how to get it here: https://developers.google.com/drive/web/auth/web-server' if client_id.nil?
+      raise ArgumentError, ':client_secret required for Google Drive. Check how to get it here: https://developers.google.com/drive/web/auth/web-server' if client_secret.nil?
+    end
 
     override_default = nil
     override_default = platform_options[:override_default] unless platform_options.nil? or platform_options[:override_default].nil?
@@ -29,50 +30,23 @@ class GoogleDriveProcessor
     # Log in and get spreadsheet
     puts 'Logging in to Google Drive...'
     begin
-      client = Google::APIClient.new application_name: 'Localio', application_version: Localio::VERSION
-      auth = client.authorization
-      auth.client_id = client_id
-      auth.client_secret = client_secret
-      auth.scope =
-          "https://docs.google.com/feeds/" +
-              "https://www.googleapis.com/auth/drive " +
-              "https://spreadsheets.google.com/feeds/"
-      auth.redirect_uri = "urn:ietf:wg:oauth:2.0:oob"
+      session = nil
 
-      config = ConfigStore.new
-
-      access_token = nil
-
-      if options.has_key?(:client_token)
-        puts 'Refreshing auth token...'
-        auth.refresh_token = options[:client_token]
-        auth.refresh!
-        access_token = auth.access_token
-      elsif config.has? :refresh_token
-        puts 'Refreshing auth token...'
-        auth.refresh_token = config.get :refresh_token
-        auth.refresh!
-        access_token = auth.access_token
+      # Service-account key file (JSON) path supplied via :client_token
+      if options[:client_token].is_a?(String) && File.file?(options[:client_token].to_s)
+        session = GoogleDrive::Session.from_service_account_key(options[:client_token])
       else
-        puts "1. Open this page in your browser:\n#{auth.authorization_uri}\n\n"
-        puts "2. Enter the authorization code shown in the page: "
-        auth.code = $stdin.gets.chomp
-        auth.fetch_access_token!
-        access_token = auth.access_token
+        # OAuth2 config-file flow (from_config saves/loads the refresh token)
+        config_path = File.join(Dir.home, '.localio_gdrive_config.json')
+        session = GoogleDrive::Session.from_config(
+          config_path,
+          client_id: client_id,
+          client_secret: client_secret
+        )
       end
-
-    if !options.has_key?(:client_token)
-      puts 'Store auth data...'
-      config.store :refresh_token, auth.refresh_token
-      config.store :access_token, auth.access_token
-      config.persist
-    end
-
-      # Creates a session
-      session = GoogleDrive.login_with_oauth(access_token)
     rescue => e
       puts "Error: #{e.inspect}"
-      raise 'Couldn\'t access Google Drive. Check your values for :client_id and :client_secret, and delete :access_token if present (you might need to refresh its value so please remove it)'
+      raise 'Couldn\'t access Google Drive. Check your values for :client_id and :client_secret.'
     end
     puts 'Logged in!'
 
