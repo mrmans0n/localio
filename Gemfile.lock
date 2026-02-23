@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     localio (0.1.7)
+      csv (>= 3.2)
       google_drive (~> 3.0)
       nokogiri (~> 1.16)
       simple_xlsx_reader (~> 2.0)
@@ -14,6 +15,7 @@ GEM
       public_suffix (>= 2.0.2, < 8.0)
     base64 (0.3.0)
     bigdecimal (4.0.1)
+    csv (3.3.5)
     declarative (0.0.20)
     diff-lcs (1.6.2)
     faraday (1.10.5)
@@ -125,7 +127,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler (~> 2.0)
   localio!
   rake
   rspec (~> 3.0)

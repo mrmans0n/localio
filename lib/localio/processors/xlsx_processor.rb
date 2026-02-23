@@ -49,7 +49,7 @@ class XlsxProcessor
         unless platform_options[:avoid_lang_downcase]
           default_language = default_language.downcase
           lang = lang.downcase
-         end
+        end
 
         unless col_text.to_s == ''
           languages.store lang, column
