@@ -1,30 +1,10 @@
-# simple_xlsx_reader transitively loads nokogiri, whose native extension is
-# compiled for x86_64 and fails to dlopen on this arm64 host.  We prevent the
-# real gem files from ever being evaluated by:
-#   1. Defining a minimal SimpleXlsxReader stub constant before anything tries
-#      to reference it.
-#   2. Pre-populating $LOADED_FEATURES with the absolute gem paths so that
-#      every subsequent `require 'simple_xlsx_reader'` (including the one at
-#      the top of xlsx_processor.rb) is treated as already loaded.
-# All runtime calls to SimpleXlsxReader.open are intercepted by RSpec doubles.
-
-module SimpleXlsxReader
-  def self.open(_path); end
-end
-
-begin
-  _slim_base = '/Volumes/Workspace/localio/.worktrees/modernization/' \
-               'vendor/bundle/ruby/2.6.0/gems/simple_xlsx_reader-1.0.5/lib'
-  _nok_base  = '/Volumes/Workspace/localio/.worktrees/modernization/' \
-               'vendor/bundle/ruby/2.6.0/gems/nokogiri-1.13.10-x86_64-darwin/lib'
-  [
-    "#{_slim_base}/simple_xlsx_reader.rb",
-    "#{_slim_base}/simple_xlsx_reader/version.rb",
-    "#{_nok_base}/nokogiri.rb",
-    "#{_nok_base}/nokogiri/extension.rb",
-  ].each { |f| $LOADED_FEATURES << f unless $LOADED_FEATURES.include?(f) }
-end
-
+# Require nokogiri explicitly before simple_xlsx_reader so that the Nokogiri
+# constant is defined regardless of test-suite load order.  Other specs
+# pre-populate $LOADED_FEATURES with nokogiri paths (to prevent loading the
+# old x86_64 build), which would cause simple_xlsx_reader to skip the require
+# and leave Nokogiri undefined.  Loading nokogiri here first, before any stub
+# can interfere, ensures the constant is available.
+require 'nokogiri'
 require 'localio/term'
 require 'localio/string_helper'
 require 'localio/processors/xlsx_processor'

@@ -1,5 +1,10 @@
 require 'tmpdir'
 require 'fileutils'
+# Load nokogiri eagerly so it is available before any spec file runs.
+# Some specs stub $LOADED_FEATURES for google_drive (which also requires
+# nokogiri internally); loading nokogiri here first ensures SimpleXlsxReader
+# and android_writer can always find the Nokogiri constant.
+require 'nokogiri'
 
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 

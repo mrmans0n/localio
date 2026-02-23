@@ -1,11 +1,10 @@
-# google_drive transitively loads nokogiri, whose native extension is compiled
-# for x86_64 and fails to dlopen on this arm64 host.  We prevent the real gem
-# files from ever being evaluated by:
+# google_drive transitively loads nokogiri.  Nokogiri is now built for arm64
+# and loads correctly, so we no longer need to stub it out.  We only stub
+# google_drive itself (which requires OAuth flow and network access) by:
 #   1. Defining minimal stub modules for GoogleDrive before anything tries to
 #      reference them.
-#   2. Pre-populating $LOADED_FEATURES with the absolute gem paths so that
-#      every subsequent `require 'google_drive'` (including the one at the top
-#      of google_drive_processor.rb) is treated as already loaded.
+#   2. Pre-populating $LOADED_FEATURES with the google_drive gem paths so that
+#      every subsequent `require 'google_drive'` is treated as already loaded.
 # All runtime calls are intercepted by RSpec doubles.
 
 module GoogleDrive
@@ -16,22 +15,13 @@ module GoogleDrive
 end
 
 begin
-  _gd_base  = '/Volumes/Workspace/localio/.worktrees/modernization/' \
-               'vendor/bundle/ruby/3.3.0/gems/google_drive-3.0.7/lib'
-  _nok_base = Dir['/Volumes/Workspace/localio/.worktrees/modernization/' \
-               'vendor/bundle/ruby/3.3.0/gems/nokogiri-*/lib'].first.to_s
-  _gd_files = Dir["#{_gd_base}/**/*.rb"].sort
-  _nok_files = _nok_base.empty? ? [] : Dir["#{_nok_base}/**/*.rb"].sort
-  (_gd_files + _nok_files).each do |f|
+  _gd_base = '/Volumes/Workspace/localio/.worktrees/modernization/' \
+             'vendor/bundle/ruby/3.3.0/gems/google_drive-3.0.7/lib'
+  Dir["#{_gd_base}/**/*.rb"].sort.each do |f|
     $LOADED_FEATURES << f unless $LOADED_FEATURES.include?(f)
   end
   ["#{_gd_base}/google_drive.rb"].each do |f|
     $LOADED_FEATURES << f unless $LOADED_FEATURES.include?(f)
-  end
-  unless _nok_base.empty?
-    ["#{_nok_base}/nokogiri.rb"].each do |f|
-      $LOADED_FEATURES << f unless $LOADED_FEATURES.include?(f)
-    end
   end
 end
 
