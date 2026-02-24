@@ -20,3 +20,4 @@ tmp
 testing/
 .vscode/launch.json
 .worktrees/
+vendor/
