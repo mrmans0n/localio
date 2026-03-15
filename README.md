@@ -271,6 +271,43 @@ For example, if we wanted to override the default (english) and use spanish inst
 platform :android, :override_default => 'es'
 ```
 
+## Fastlane Integration
+
+Use the [fastlane-plugin-localio](https://github.com/mrmans0n/fastlane-plugin-localio) plugin to run localio as part of your Fastlane workflow.
+
+### Installation
+
+```bash
+fastlane add_plugin localio
+```
+
+### Usage
+
+You can use an existing Locfile:
+
+```ruby
+lane :localize do
+  localio(locfile: "Locfile")
+end
+```
+
+Or configure everything inline:
+
+```ruby
+lane :localize do
+  localio(
+    platform: "android",
+    source: "xlsx",
+    source_path: "translations.xlsx",
+    source_sheet: "Sheet1",
+    output_path: "app/src/main/res",
+    formatting: "smart"
+  )
+end
+```
+
+See the [plugin README](https://github.com/mrmans0n/fastlane-plugin-localio) for the full list of parameters and examples.
+
 ## Contributing
 
 Please read the [contributing guide](https://github.com/mrmans0n/localio/blob/master/CONTRIBUTING.md).
