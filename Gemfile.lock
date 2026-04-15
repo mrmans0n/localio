@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    localio (0.2.1)
+    localio (0.2.3)
       csv (~> 3.2)
       google_drive (~> 3.0)
       nokogiri (~> 1.16)
