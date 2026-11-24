@@ -24,5 +24,11 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
 
+      - name: Audit dependencies
+        run: bundle exec bundle-audit check --update
+
       - name: Run tests
         run: bundle exec rspec
+
+      - name: Build gem
+        run: bundle exec rake build
