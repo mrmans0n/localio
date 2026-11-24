@@ -21,9 +21,11 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec",   "~> 3.0"
   spec.add_development_dependency "rake",    "~> 13.0"
 
+  # Enforce patched transitive dependencies for consumers that do not use our lockfile.
+  spec.add_dependency "addressable",         "~> 2.9", ">= 2.9.1"
   spec.add_dependency "google_drive",        "~> 3.0"
   spec.add_dependency "spreadsheet",         "~> 1.3"
   spec.add_dependency "simple_xlsx_reader",  "~> 2.0"
-  spec.add_dependency "nokogiri",            "~> 1.16"
+  spec.add_dependency "nokogiri",            "~> 1.19", ">= 1.19.5"
   spec.add_dependency "csv",                 "~> 3.2"
 end
